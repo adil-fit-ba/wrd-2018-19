@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Primitives
+@using WrdFormInfo.Helper
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Web razvoj i dizajn </h1>
+    <h2>Prikaz poslatih podataka sa html forme</h2>
+</div>
+
+<h3>Query parametri</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>KeyName</th>
+        <th>Value</th>
+    </tr>
+
+    @foreach (KeyValuePair<string, StringValues> p in Context.Request.Query)
+    {
+        <tr>
+            <td>@p.Key</td>
+            <td>@p.Value</td>
+        </tr>
+    }
+</table>
+
+
+
+<h3>Post parametri</h3>
+
+@if (Context.Request.Method == "GET")
+{
+    <label>Ovo nije post forma</label>
+}
+else
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>KeyName</th>
+            <th>Value</th>
+        </tr>
+
+        @foreach (KeyValuePair<string, StringValues> p in Context.Request.Form)
+        {
+            <tr>
+                <td>@p.Key</td>
+                <td>@p.Value</td>
+            </tr>
+        }
+    </table>
+
+    <h3>Files</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>ContentType</th>
+            <th>ContentDisposition</th>
+            <th>FileName</th>
+            <th>Name</th>
+            <th>Length</th>
+            <th>Image preview</th>
+        </tr>
+        @foreach (IFormFile f in Context.Request.Form.Files)
+        {
+            <tr>
+                <td>@f.ContentType</td>
+                <td>@f.ContentDisposition</td>
+                <td>@f.FileName</td>
+                <td>@f.Name</td>
+                <td>@f.Length</td>
+                <td>
+                    @if (f.ContentType.Contains("image"))
+                    {
+
+                        <img src="data:@f.ContentType;base64,@f.OpenReadStream().ToBase64String()" width="300px" height="200px">
+                    }
+            </td>
+        </tr>
+    }
+    </table>
+}
+
+
+<h3>Header parametri</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>KeyName</th>
+        <th>Value</th>
+    </tr>
+
+    @foreach (KeyValuePair<string, StringValues> p in Context.Request.Headers)
+    {
+        <tr>
+            <td>@p.Key</td>
+            <td>@p.Value</td>
+        </tr>
+    }
+</table>
