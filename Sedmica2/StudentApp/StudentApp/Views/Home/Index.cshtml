@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model StudentApp.Controllers.HomeController.HomeIndexVM
+
+<div class="text-center">
+    <h1 class="display-4">WRD - API</h1>
+
+    <p>Dodavanje i pregled zapisa tabele <b>Studenti</b> i <b>Opstine</b></p>
+    <p>/Home/StudentDodaj</p>
+    <p>/Home/OpstinaDodaj</p>
+</div>
+
+<h2>Studenti</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>DatumUpisa</th>
+        <th>BrojIndeksa</th>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>KorisnickoIme</th>
+        <th>Lozinka</th>
+        <th>DatumRodjenja</th>
+        <th>Status</th>
+        <th>OpstinaPrebivalistaID</th>
+        <th>OpstinaRodjenjaID</th>
+
+    </tr>
+    @foreach (var x in Model.studenti)
+    {
+        <tr>
+            <td>@x.ID</td>
+            <td>@x.DatumUpisa</td>
+            <td>@x.BrojIndeksa</td>
+            <td>@x.Ime</td>
+            <td>@x.Prezime</td>
+            <td>@x.KorisnickoIme</td>
+            <td>@x.Lozinka</td>
+            <td>@x.DatumRodjenja</td>
+            <td>@x.Status</td>
+            <td>@(x.OpstinaPrebivalista?.Opis)</td>
+            <td>@(x.OpstinaRodjenja?.Opis)</td>
+
+        </tr>
+    }
+</table>
+
+
+
+<h2>Opstine</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Opis</th>
+
+    </tr>
+    @foreach (var x in Model.opstine)
+    {
+        <tr>
+            <td>@x.Id</td>
+            <td>@x.Opis</td>
+        </tr>
+    }
+</table>
