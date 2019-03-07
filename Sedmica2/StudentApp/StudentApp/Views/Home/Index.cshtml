@@ -7,8 +7,8 @@
     <h1 class="display-4">WRD - API</h1>
 
     <p>Dodavanje i pregled zapisa tabele <b>Studenti</b> i <b>Opstine</b></p>
-    <p>/Home/StudentDodaj</p>
-    <p>/Home/OpstinaDodaj</p>
+    <p>@(Context.Request.Scheme)://@(Context.Request.Host)/Home/StudentDodaj</p>
+    <p>@(Context.Request.Scheme)://@(Context.Request.Host)/Home/OpstinaDodaj</p>
 </div>
 
 <h2>Studenti</h2>
@@ -23,8 +23,8 @@
         <th>Lozinka</th>
         <th>DatumRodjenja</th>
         <th>Status</th>
-        <th>OpstinaPrebivalistaID</th>
-        <th>OpstinaRodjenjaID</th>
+        <th>OpstinaPrebivalistaId</th>
+        <th>OpstinaRodjenjaId</th>
 
     </tr>
     @foreach (var x in Model.studenti)
