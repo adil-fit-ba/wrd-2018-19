@@ -53,6 +53,12 @@ namespace StudentApp
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

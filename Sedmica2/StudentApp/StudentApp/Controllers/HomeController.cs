@@ -38,7 +38,7 @@ namespace StudentApp.Controllers
             x.DatumUpisa = DateTime.Now;
             dbContext.Students.Attach(x).State = EntityState.Added;
             dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            return View();
         }
 
         public IActionResult OpstinaDodaj(Opstina x)
@@ -47,7 +47,7 @@ namespace StudentApp.Controllers
                 return Content("Greska. Parametar 'Opis' mora biti duži od 5 karaktra.");
             dbContext.Opstinas.Attach(x).State = EntityState.Added;
             dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            return View();
         }
 
         public IActionResult OpstinaObrisi(int OpstinaID)
@@ -56,6 +56,12 @@ namespace StudentApp.Controllers
             dbContext.Opstinas.Remove(x);
             dbContext.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult OpstinaGetAllJson()
+        {
+            var x = dbContext.Opstinas.Where(s => s.Opis.Length > 3).ToList();
+            return Json(x);
         }
     }
 }
