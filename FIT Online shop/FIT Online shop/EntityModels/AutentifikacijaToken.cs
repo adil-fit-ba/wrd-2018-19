@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Posiljka.Data.EntityModels;
 
 namespace FIT_Online_shop.EntityModels
 {
     public class AutentifikacijaToken
     {
         public int Id { get; set; }
-        public string TokenString { get; set; }
-        public int KupacId { get; set; }
-        public Kupac Kupac { get; set; }
-        public DateTime VrijemeSnimanja{ get; set; }
+        public string Vrijednost { get; set; }
+        [ForeignKey(nameof(KorisnickiNalog))]
+        public int KorisnickiNalogId { get; set; }
+        public KorisnickiNalog KorisnickiNalog { get; set; }
+        public DateTime VrijemeEvidentiranja { get; set; }
+        public string IpAdresa { get; set; }
 
     }
 }

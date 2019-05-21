@@ -8,7 +8,7 @@ namespace FIT_Online_shop.EntityModels
     public class Proizvod
     {
         public int Id { get; set; }
-        public int Naziv { get; set; }
+        public string Naziv { get; set; }
         public float Cijena { get; set; }
         public string JedinicaMjere { get; set; }
     }
