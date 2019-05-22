@@ -24,19 +24,18 @@ namespace FIT_Online_shop.Controllers
         [HttpPost]
         public IActionResult RegistracijaForm([FromForm]KupacRegistracija x)
         {
-            _dbContext.Add(new Kupac
-            {
-                KorisnickoIme = x.username,
-                Ime = x.ime,
-                Lozinka = x.password,
-                Prezime = x.prezime,
-            });
-            _dbContext.SaveChanges();
-            return Ok("uspješno za " + x.username);
+            return RegistacijaAkcija(x);
         }
         [HttpPost]
         public IActionResult RegistracijaJson([FromBody]KupacRegistracija x)
         {
+            return RegistacijaAkcija(x);
+        }
+
+        private IActionResult RegistacijaAkcija(KupacRegistracija x)
+        {
+            if (_dbContext.Kupac.Any(s => s.KorisnickoIme == x.username))
+                return BadRequest("Username vec zauzet");
             _dbContext.Add(new Kupac
             {
                 KorisnickoIme = x.username,
@@ -45,7 +44,7 @@ namespace FIT_Online_shop.Controllers
                 Prezime = x.prezime,
             });
             _dbContext.SaveChanges();
-            return Ok(new {poruka = "uspješno za " + x.username});
+            return Ok(new {poruka = "Uspješno za " + x.username});
         }
     }
 }

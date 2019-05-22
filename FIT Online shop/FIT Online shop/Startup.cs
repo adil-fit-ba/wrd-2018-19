@@ -28,7 +28,8 @@ namespace FIT_Online_shop
         {
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-          
+            // Register the Swagger services
+            services.AddSwaggerDocument();
 
         }
 
@@ -45,6 +46,10 @@ namespace FIT_Online_shop
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            app.UseSwagger();
+            app.UseSwaggerUi3();
+
             app.UseMvc();
         }
     }

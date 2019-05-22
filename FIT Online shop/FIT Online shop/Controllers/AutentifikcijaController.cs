@@ -22,29 +22,10 @@ namespace FIT_Online_shop.Controllers
         [HttpPost]
         public IActionResult LoginForm([FromForm]AutentifikcijaLogin x)
         {
-            var k=  _dbContext.Kupac.SingleOrDefault(s => s.KorisnickoIme == x.username && s.Lozinka == x.password);
-            if (k == null)
-                return Unauthorized();
-
-            string tokenString = Tokenizer.TokenGenerator.Generate(5);
-            _dbContext.Add(new AutentifikacijaToken
-            {
-                KorisnickiNalogId = k.Id,
-                VrijemeEvidentiranja = DateTime.Now,
-                Vrijednost = tokenString
-            });
-            _dbContext.SaveChanges();
-            return Ok(new
-            {
-                poruka = "ispravan login",
-                tokenString = tokenString,
-                username = k.KorisnickoIme,
-                ime = k.Ime, prezime = k.Prezime
-            });
+            return LoginAkcija(x);
         }
 
-        [HttpPost]
-        public IActionResult LoginJson([FromBody]AutentifikcijaLogin x)
+        private IActionResult LoginAkcija(AutentifikcijaLogin x)
         {
             var k = _dbContext.Kupac.SingleOrDefault(s => s.KorisnickoIme == x.username && s.Lozinka == x.password);
             if (k == null)
@@ -68,11 +49,27 @@ namespace FIT_Online_shop.Controllers
             });
         }
 
+        [HttpPost]
+        public IActionResult LoginJson([FromBody]AutentifikcijaLogin x)
+        {
+            return LoginAkcija(x);
+        }
+
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Logout()
+        [HttpGet]
+        public ActionResult Logout(string MojToken)
         {
+            var x = _dbContext.AutentifikacijaToken.Where(s => s.Vrijednost == MojToken).FirstOrDefault();
+
+            _dbContext.Remove(x);
+            _dbContext.SaveChanges();
+
+            return Ok(new
+            {
+                poruka = "uspješan logout"
+            });
+
         }
     }
 }

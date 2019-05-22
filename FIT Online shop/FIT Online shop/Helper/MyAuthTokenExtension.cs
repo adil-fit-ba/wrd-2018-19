@@ -12,12 +12,6 @@ namespace Posiljka.Web.Helper.webapi
     public static class MyAuthTokenExtension
     {
 
-        public static KorisnickiNalog GetKorisnikOfAuthToken(this HttpContext httpContext)
-        {
-            string token = httpContext.GetMyAuthToken();
-            return GetKorisnikOfAuthToken(token);
-        }
-
         public static KorisnickiNalog GetKorisnikOfAuthToken(string token)
         {
             MojDbContext db = new MojDbContext();
@@ -26,9 +20,9 @@ namespace Posiljka.Web.Helper.webapi
             return korisnickiNalog;
         }
 
-        public static string GetMyAuthToken(this HttpContext httpContext)
+        public static string GetMyAuthTokenFromHeader(this HttpContext httpContext)
         {
-            string token = httpContext.Request.Headers["MojAutentifikacijaToken"];
+            string token = httpContext.Request.Headers["MojToken"];
             return token;
         }
     }
