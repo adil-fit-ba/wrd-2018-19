@@ -1,4 +1,4 @@
-﻿namespace Posiljka.Data.EntityModels
+﻿namespace FIT_Online_shop.EntityModels
 {
     public class KorisnickiNalog
     {

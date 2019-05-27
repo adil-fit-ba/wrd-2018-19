@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FIT_Online_shop.EF;
+using FIT_Online_shop.EntityModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Posiljka.Data.EntityModels;
 
-namespace Posiljka.Web.Helper.webapi
+namespace FIT_Online_shop.Helper
 {
     public static class MyAuthTokenExtension
     {

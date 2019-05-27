@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Tokenizer
+namespace FIT_Online_shop.Helper
 {
     //https://gist.github.com/wadeschulz/20822570b27159813db8
     public class TokenGenerator

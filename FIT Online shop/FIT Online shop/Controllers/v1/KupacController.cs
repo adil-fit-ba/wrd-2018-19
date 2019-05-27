@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FIT_Online_shop.EF;
 using FIT_Online_shop.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FIT_Online_shop.Controllers
+namespace FIT_Online_shop.Controllers.v1
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v1/[controller]/[action]")]
     [ApiController]
     public class KupacController : ControllerBase
     {
@@ -24,19 +21,19 @@ namespace FIT_Online_shop.Controllers
         [HttpPost]
         public IActionResult RegistracijaForm([FromForm]KupacRegistracija x)
         {
-            _dbContext.Add(new Kupac
-            {
-                KorisnickoIme = x.username,
-                Ime = x.ime,
-                Lozinka = x.password,
-                Prezime = x.prezime,
-            });
-            _dbContext.SaveChanges();
-            return Ok("uspješno za " + x.username);
+            return RegistracijaAkcija(x);
         }
         [HttpPost]
         public IActionResult RegistracijaJson([FromBody]KupacRegistracija x)
         {
+            return RegistracijaAkcija(x);
+        }
+
+        private IActionResult RegistracijaAkcija(KupacRegistracija x)
+        {
+            if (_dbContext.Kupac.Any(s => s.KorisnickoIme == x.username))
+                return BadRequest("username zauzet");
+
             _dbContext.Add(new Kupac
             {
                 KorisnickoIme = x.username,
