@@ -12,6 +12,9 @@ namespace FIT_Online_shop.EF
         public DbSet<Kupac> Kupac { set; get; }
         public DbSet<Proizvod> Proizvod { set; get; }
         public DbSet<AutentifikacijaToken> AutentifikacijaToken { set; get; }
+        public DbSet<Narudzba> Narudzba { set; get; }
+        public DbSet<NarudzbaStavka> NarudzbaStavka { set; get; }
+        public DbSet<Opstina> Opstina { set; get; }
         public MojDbContext()
         {
         }

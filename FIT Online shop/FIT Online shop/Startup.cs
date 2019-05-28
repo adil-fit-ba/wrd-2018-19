@@ -38,18 +38,22 @@ namespace FIT_Online_shop
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+               app.UseCors(builder => builder
+                   .AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials());
 
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-
-            // Register the Swagger generator and the Swagger UI middlewares
-            app.UseSwagger();
-            app.UseSwaggerUi3();
-
+               // Register the Swagger generator and the Swagger UI middlewares
+               app.UseSwagger(c =>
+               {
+                 
+               });
+               app.UseSwaggerUi3();
+                          
             app.UseMvc();
+            
         }
     }
 }

@@ -13,7 +13,7 @@ namespace FIT_Online_shop.Controllers.v1
         private MojDbContext _dbContext = new MojDbContext();
         // GET api/values
         [HttpGet]
-        public ActionResult GetAll(string token)
+        public ActionResult GetAllQ(string token)
         {
             KorisnickiNalog k = MyAuthTokenExtension.GetKorisnikOfAuthToken(token);
             if (k == null)
@@ -22,6 +22,16 @@ namespace FIT_Online_shop.Controllers.v1
             return GetAllAkcija();
         }
 
+        [HttpGet]
+        public ActionResult GetAllH()
+        {
+            string token = HttpContext.GetMyAuthToken();
+            KorisnickiNalog k = MyAuthTokenExtension.GetKorisnikOfAuthToken(token);
+            if (k == null)
+                return Unauthorized();
+
+            return GetAllAkcija();
+        }
         public class ProizvodGetAllVM
         {
             public int Id { get; set; }

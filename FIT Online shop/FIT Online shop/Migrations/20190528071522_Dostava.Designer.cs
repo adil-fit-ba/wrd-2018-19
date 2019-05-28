@@ -4,14 +4,16 @@ using FIT_Online_shop.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Online_shop.Migrations
 {
     [DbContext(typeof(MojDbContext))]
-    partial class MojDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190528071522_Dostava")]
+    partial class Dostava
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace FIT_Online_shop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("CijenaDostave");
+                    b.Property<float>("Cijena");
 
                     b.Property<DateTime>("DatumNarudzbe");
 
@@ -74,19 +76,19 @@ namespace FIT_Online_shop.Migrations
 
                     b.Property<string>("DostavaIme");
 
-                    b.Property<int?>("DostavaOpstinaID");
+                    b.Property<int>("DostavaOpstina");
+
+                    b.Property<int?>("DostavaOpstinaIDId");
 
                     b.Property<string>("DostavaPostanskiBroj");
 
                     b.Property<string>("DostavaTelefon");
 
-                    b.Property<float>("IznosNarudzbe");
-
                     b.Property<string>("Napomena");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DostavaOpstinaID");
+                    b.HasIndex("DostavaOpstinaIDId");
 
                     b.ToTable("Narudzba");
                 });
@@ -163,15 +165,15 @@ namespace FIT_Online_shop.Migrations
 
             modelBuilder.Entity("FIT_Online_shop.EntityModels.Narudzba", b =>
                 {
-                    b.HasOne("FIT_Online_shop.EntityModels.Opstina", "DostavaOpstina")
+                    b.HasOne("FIT_Online_shop.EntityModels.Opstina", "DostavaOpstinaID")
                         .WithMany()
-                        .HasForeignKey("DostavaOpstinaID");
+                        .HasForeignKey("DostavaOpstinaIDId");
                 });
 
             modelBuilder.Entity("FIT_Online_shop.EntityModels.NarudzbaStavka", b =>
                 {
                     b.HasOne("FIT_Online_shop.EntityModels.Narudzba", "Narudzba")
-                        .WithMany("NarudzbaStavka")
+                        .WithMany()
                         .HasForeignKey("NarudzbaID")
                         .OnDelete(DeleteBehavior.Cascade);
 
