@@ -20,5 +20,8 @@ namespace FIT_Online_shop.EntityModels
         public virtual Opstina DostavaOpstina { get; set; }
         public string Napomena { get; set; }
         public virtual List<NarudzbaStavka> NarudzbaStavka { get; set; } = new List<NarudzbaStavka>();
+
+        public int? KupacID { get; set; }
+        public virtual Kupac Kupac{ get; set; }
     }
 }
