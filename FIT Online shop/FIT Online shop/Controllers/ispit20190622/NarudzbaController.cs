@@ -63,7 +63,7 @@ namespace FIT_Online_shop.Controllers.ispit1
         [HttpGet]
         public ActionResult GetAll()
         {
-            return Ok(_dbContext.Narudzba.OrderByDescending(s=>s.Id).Select(x => new NarudzbaGetAllVM
+            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s=>s.Id).Select(x => new NarudzbaGetAllVM
             {
                 narudzbaId = x.Id,
                 cijenaDostave = x.CijenaDostave,
@@ -79,9 +79,9 @@ namespace FIT_Online_shop.Controllers.ispit1
         }
 
         [HttpGet]
-        public ActionResult Find(string name)
+        public ActionResult Find(string name="")
         {
-            return Ok(_dbContext.Narudzba.Where(q=>q.DostavaIme.ToLower().StartsWith(name.ToLower())).Select(x => new NarudzbaGetAllVM
+            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s => s.Id).Where(q=>q.DostavaIme != null && q.DostavaIme.ToLower().StartsWith(name.ToLower())).Select(x => new NarudzbaGetAllVM
             {
                 narudzbaId = x.Id,
                 cijenaDostave = x.CijenaDostave,
