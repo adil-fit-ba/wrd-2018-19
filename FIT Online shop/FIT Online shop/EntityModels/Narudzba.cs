@@ -23,5 +23,6 @@ namespace FIT_Online_shop.EntityModels
 
         public int? KupacID { get; set; }
         public virtual Kupac Kupac{ get; set; }
+        public int LikeCounter { get; set; }
     }
 }

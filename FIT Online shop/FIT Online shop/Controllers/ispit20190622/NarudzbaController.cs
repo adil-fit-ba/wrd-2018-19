@@ -21,10 +21,11 @@ namespace FIT_Online_shop.Controllers.ispit1
             public string dostavaTelefon { get; set; }
             public string napomena { get; set; }
         }
+
         private MojDbContext _dbContext = new MojDbContext();
-    
+
         [HttpPost]
-        public IActionResult Dodaj([FromBody]NarudzbaDodaj x)
+        public IActionResult Dodaj([FromBody] NarudzbaDodaj x)
         {
 
             Narudzba narudzba = new Narudzba()
@@ -40,11 +41,11 @@ namespace FIT_Online_shop.Controllers.ispit1
                 KupacID = 1,
             };
             narudzba.IznosNarudzbe = 80;
-                  
+
             _dbContext.Add(narudzba);
-           
+
             _dbContext.SaveChanges();
-            return Ok(new { poruka = "uspješno" });
+            return Ok(new {poruka = "uspješno"});
         }
 
         public class NarudzbaGetAllVM
@@ -59,29 +60,13 @@ namespace FIT_Online_shop.Controllers.ispit1
             public float cijenaDostave { get; set; }
             public float iznosNarudzbe { get; set; }
             public int narudzbaId { get; set; }
-        }
-        [HttpGet]
-        public ActionResult GetAll()
-        {
-            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s=>s.Id).Select(x => new NarudzbaGetAllVM
-            {
-                narudzbaId = x.Id,
-                cijenaDostave = x.CijenaDostave,
-                iznosNarudzbe = x.IznosNarudzbe,
-                dostavaAdresa = x.DostavaAdresa,
-                dostavaIme = x.DostavaIme,
-                dostavaOpstina = x.DostavaOpstina!=null?x.DostavaOpstina.Naziv:"",
-                dostavaPostanskiBroj = x.DostavaPostanskiBroj,
-                dostavaTelefon = x.DostavaTelefon,
-                napomena = x.Napomena,
-                datumNarudzbe = x.DatumNarudzbe,
-            }).ToList());
+            public int likeCounter { get; set; }
         }
 
         [HttpGet]
-        public ActionResult Find(string name="")
+        public ActionResult GetAll()
         {
-            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s => s.Id).Where(q=>q.DostavaIme != null && q.DostavaIme.ToLower().StartsWith(name.ToLower())).Select(x => new NarudzbaGetAllVM
+            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s => s.Id).Select(x => new NarudzbaGetAllVM
             {
                 narudzbaId = x.Id,
                 cijenaDostave = x.CijenaDostave,
@@ -93,7 +78,38 @@ namespace FIT_Online_shop.Controllers.ispit1
                 dostavaTelefon = x.DostavaTelefon,
                 napomena = x.Napomena,
                 datumNarudzbe = x.DatumNarudzbe,
+                likeCounter = x.LikeCounter,
             }).ToList());
+        }
+
+        [HttpGet]
+        public ActionResult Find(string name)
+        {
+            return Ok(_dbContext.Narudzba.Take(50).OrderByDescending(s => s.Id)
+                .Where(q => q.DostavaIme != null && q.DostavaIme.ToLower().StartsWith(name.ToLower())).Select(x =>
+                    new NarudzbaGetAllVM
+                    {
+                        narudzbaId = x.Id,
+                        cijenaDostave = x.CijenaDostave,
+                        iznosNarudzbe = x.IznosNarudzbe,
+                        dostavaAdresa = x.DostavaAdresa,
+                        dostavaIme = x.DostavaIme,
+                        dostavaOpstina = x.DostavaOpstina != null ? x.DostavaOpstina.Naziv : "",
+                        dostavaPostanskiBroj = x.DostavaPostanskiBroj,
+                        dostavaTelefon = x.DostavaTelefon,
+                        napomena = x.Napomena,
+                        datumNarudzbe = x.DatumNarudzbe,
+                        likeCounter = x.LikeCounter,
+                    }).ToList());
+        }
+
+        [HttpGet]
+        public ActionResult Like(int narudzbaId)
+        {
+            Narudzba x = _dbContext.Narudzba.Find(narudzbaId);
+            x.LikeCounter++;
+            _dbContext.SaveChanges();
+            return Ok(new { poruka = "uspješno", narudzbaId, x.LikeCounter });
         }
     }
 }

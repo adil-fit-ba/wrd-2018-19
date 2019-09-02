@@ -11,5 +11,6 @@ namespace FIT_Online_shop.EntityModels
         public string Naziv { get; set; }
         public float Cijena { get; set; }
         public string JedinicaMjere { get; set; }
+        public int LikeCounter { get; internal set; }
     }
 }
