@@ -15,6 +15,7 @@ namespace FIT_Online_shop.EF
         public DbSet<Narudzba> Narudzba { set; get; }
         public DbSet<NarudzbaStavka> NarudzbaStavka { set; get; }
         public DbSet<Opstina> Opstina { set; get; }
+        public DbSet<ProizvodOpcije> ProizvodOpcije { set; get; }
         public MojDbContext()
         {
         }
