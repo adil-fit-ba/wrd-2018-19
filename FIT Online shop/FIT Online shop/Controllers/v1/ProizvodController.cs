@@ -38,6 +38,7 @@ namespace FIT_Online_shop.Controllers.v1
             public string Naziv { get; set; }
             public float Cijena { get; set; }
             public string JedinicaMjere { get; set; }
+            public string Slika { get; set; }
         }
         private ActionResult GetAllAkcija()
         {
@@ -46,7 +47,8 @@ namespace FIT_Online_shop.Controllers.v1
                 Cijena = s.Cijena,
                 Id = s.Id,
                 JedinicaMjere = s.JedinicaMjere,
-                Naziv = s.Naziv
+                Naziv = s.Naziv ,
+                Slika=s.slikaUrl
             }).ToList());
         }
 
