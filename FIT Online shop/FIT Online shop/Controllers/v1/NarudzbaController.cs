@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FIT_Online_shop.EF;
 using FIT_Online_shop.EntityModels;
+using FIT_Online_shop.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIT_Online_shop.Controllers.v1
@@ -41,6 +42,10 @@ namespace FIT_Online_shop.Controllers.v1
         }
         private IActionResult DodajAkcija(NarudzbaDodaj x)
         {
+            KorisnickiNalog korisnickiNalog = HttpContext.GetKorisnikOfAuthToken();
+            //if (korisnickiNalog == null)
+            //    return Unauthorized();
+
             Narudzba narudzba = new Narudzba()
             {
                 CijenaDostave = 10,
@@ -51,13 +56,14 @@ namespace FIT_Online_shop.Controllers.v1
                 DostavaTelefon = x.dostavaTelefon,
                 Napomena = x.napomena,
                 DatumNarudzbe = DateTime.Now,
+                KupacID = korisnickiNalog?.Id
             };
             narudzba.IznosNarudzbe = 0;
             x.stavke?.ForEach(a =>
             {
                 narudzba.NarudzbaStavka.Add(new NarudzbaStavka
                 {
-                    Id = a.proizvodID,
+                    ProizvodID = a.proizvodID,
                     Kolicina = a.kolicina,
                     NarudzbaID = narudzba.Id
                 });
@@ -68,7 +74,7 @@ namespace FIT_Online_shop.Controllers.v1
             _dbContext.Add(narudzba);
 
             _dbContext.SaveChanges();
-            return Ok(new { poruka = "uspješno" });
+            return Ok(new { poruka = "uspješno",  narudzbaID=narudzba.Id });
         }
 
     }
