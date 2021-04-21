@@ -70,6 +70,10 @@ namespace FIT_Api_Examples
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseCors(
+               options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+           ); //This needs to set everything allowed
+
 
             app.UseRouting();
 
