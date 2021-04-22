@@ -85,7 +85,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Api_Primjer_employee_3.Models.Employee", b =>
+            modelBuilder.Entity("Api_Primjer_employee_3.Models.employee", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()

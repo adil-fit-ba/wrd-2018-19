@@ -9,6 +9,9 @@ namespace FIT_Api_Examples.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<ProjectTask> ProjectTask { get; set; }
+        public DbSet<TimeTracking> TimeTracking { get; set; }
+        public DbSet<Project> Project { get; set; }
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {

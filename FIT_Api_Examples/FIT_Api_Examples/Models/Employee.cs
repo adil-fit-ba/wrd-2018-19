@@ -11,5 +11,6 @@ namespace FIT_Api_Examples.Models
         public float? employee_salary { get; set; }
         public int? employee_age { get; set; }
         public DateTime created_time { get; set; }
+        public string profile_image { get; set; }
     }
 }
