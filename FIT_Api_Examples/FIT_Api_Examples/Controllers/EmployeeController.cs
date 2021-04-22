@@ -25,18 +25,32 @@ namespace FIT_Api_Examples.Controllers
         {
             return _dbContext.Employees.Find(id);
         }
-        
-       [HttpPost()]
-
-        public Employee Post([FromBody]Employee employee)
+        public class EmployeePostVM
         {
-            employee.profile_image = "https://restapiexample.wrd.app.fit.ba/profile_images/empty.png";
-            var result = _dbContext.Add(employee).Entity;
-            _dbContext.SaveChanges();
-            return result;
+            public string employee_name { get; set; }
+            public float? employee_salary { get; set; }
+            public int? employee_age { get; set; }
         }
 
-        public class EmployeeVM
+        [HttpPost()]
+
+        public Employee Post([FromBody] EmployeePostVM x)
+        {
+            var newEmployee = new Employee
+            {
+                employee_age = x.employee_age,
+                employee_name = x.employee_name,
+                employee_salary = x.employee_salary,
+                profile_image = "https://restapiexample.wrd.app.fit.ba/profile_images/empty.png",
+                created_time = DateTime.Now
+            };
+
+            _dbContext.Add(newEmployee);
+            _dbContext.SaveChanges();
+            return newEmployee;
+        }
+
+        public class EmployeeGetAllVM
         {
             public int id { get; set; }
             public string employee_name { get; set; }
@@ -47,10 +61,10 @@ namespace FIT_Api_Examples.Controllers
             public int task_count { get; set; }
         }
         [HttpGet]
-        public List<EmployeeVM> GetAll()
+        public List<EmployeeGetAllVM> GetAll()
         {
             return _dbContext.Employees.OrderByDescending(s=>s.id)
-                .Select(s=>new EmployeeVM
+                .Select(s=>new EmployeeGetAllVM
                 {
                     id=s.id,
                     employee_name = s.employee_name,
