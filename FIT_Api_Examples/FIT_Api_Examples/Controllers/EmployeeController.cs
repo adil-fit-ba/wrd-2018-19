@@ -25,16 +25,15 @@ namespace FIT_Api_Examples.Controllers
         {
             return _dbContext.Employees.Find(id);
         }
-        public class EmployeePostVM
+        public class EmployeeAddVM
         {
             public string employee_name { get; set; }
             public float? employee_salary { get; set; }
             public int? employee_age { get; set; }
         }
 
-        [HttpPost()]
-
-        public Employee Post([FromBody] EmployeePostVM x)
+        [HttpPost]
+        public Employee Add([FromBody] EmployeeAddVM x)
         {
             var newEmployee = new Employee
             {
@@ -48,6 +47,39 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.Add(newEmployee);
             _dbContext.SaveChanges();
             return newEmployee;
+        }
+        public class EmployeeUpdateVM
+        {
+            public float? employee_salary { get; set; }
+            public int? employee_age { get; set; }
+        }
+        [HttpPost("{id}")]
+        public ActionResult Update(int id, [FromBody] EmployeeUpdateVM x)
+        {
+            Employee employee = _dbContext.Employees.Find(id);
+
+            if (employee == null)
+                return BadRequest("pogresan ID");
+
+            employee.employee_age = x.employee_age;
+            employee.employee_salary = x.employee_salary;
+                
+            _dbContext.SaveChanges();
+            return Ok(employee);
+        }
+
+        [HttpPost("{id}")]
+        public ActionResult Delete(int id)
+        {
+            Employee employee = _dbContext.Employees.Find(id);
+
+            if (employee == null || id==1)
+                return BadRequest("pogresan ID");
+
+            _dbContext.Remove(employee);
+
+            _dbContext.SaveChanges();
+            return Ok(employee);
         }
 
         public class EmployeeGetAllVM
