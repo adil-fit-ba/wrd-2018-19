@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FIT_Api_Examples.Data;
+using FIT_Api_Examples.Helper;
 using FIT_Api_Examples.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace FIT_Api_Examples.Controllers
 {
@@ -93,9 +95,9 @@ namespace FIT_Api_Examples.Controllers
             public int task_count { get; set; }
         }
         [HttpGet]
-        public List<EmployeeGetAllVM> GetAll()
+        public PagedList<EmployeeGetAllVM> GetAllPaged(string name, int page_number, int items_per_page)
         {
-            return _dbContext.Employees.OrderByDescending(s=>s.id)
+            var data = _dbContext.Employees.Where(x=>name==null || x.employee_name.StartsWith(name)).OrderByDescending(s=>s.id)
                 .Select(s=>new EmployeeGetAllVM
                 {
                     id=s.id,
@@ -107,7 +109,28 @@ namespace FIT_Api_Examples.Controllers
                     task_count = _dbContext.ProjectTask.Count(p => p.employee_id==s.id)
 
                 })
-                .ToList();
+                .AsQueryable();
+            return PagedList<EmployeeGetAllVM>.Create(data, page_number, items_per_page);
+        }
+
+        [HttpGet]
+        
+        public List<EmployeeGetAllVM> GetAll(string name)
+        {
+            var data = _dbContext.Employees.Where(x => name == null || x.employee_name.StartsWith(name)).OrderByDescending(s => s.id)
+                .Select(s => new EmployeeGetAllVM
+                {
+                    id = s.id,
+                    employee_name = s.employee_name,
+                    employee_salary = s.employee_salary,
+                    employee_age = s.employee_age,
+                    created_time = s.created_time,
+                    profile_image = s.profile_image,
+                    task_count = _dbContext.ProjectTask.Count(p => p.employee_id == s.id)
+
+                })
+                .AsQueryable();
+            return data.Take(100).ToList();
         }
     }
 }
