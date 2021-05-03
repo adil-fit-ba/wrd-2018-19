@@ -2,10 +2,9 @@
 
 namespace FIT_Api_Examples.Models.eUniverzitet
 {
-    public class Drzava
+    public class CmbStavke
     { 
-        [Key]
         public int id { get; set; }
-        public string naziv { get; set; }
+        public string opis { get; set; }
     }
 }

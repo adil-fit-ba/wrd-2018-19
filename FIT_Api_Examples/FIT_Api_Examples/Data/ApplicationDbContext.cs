@@ -1,4 +1,5 @@
 ﻿using FIT_Api_Examples.Models;
+using FIT_Api_Examples.Models.eUniverzitet;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,10 @@ namespace FIT_Api_Examples.Data
         public DbSet<ProjectTask> ProjectTask { get; set; }
         public DbSet<TimeTracking> TimeTracking { get; set; }
         public DbSet<Project> Project { get; set; }
+
+        public DbSet<Drzava> Drzava { get; set; }
+        public DbSet<Opstina> Opstina { get; set; }
+        public DbSet<Student> Student { get; set; }
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {

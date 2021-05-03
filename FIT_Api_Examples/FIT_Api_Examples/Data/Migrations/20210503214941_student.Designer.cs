@@ -4,14 +4,16 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Api_Examples.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210503214941_student")]
+    partial class student
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -71,7 +73,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.Property<DateTime>("created_time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("employee_id")
@@ -108,7 +110,7 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("end_time")
@@ -152,10 +154,10 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("drzava_id")
+                    b.Property<int?>("drzava_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -225,9 +227,7 @@ namespace FIT_Api_Examples.Data.Migrations
                 {
                     b.HasOne("FIT_Api_Examples.Models.eUniverzitet.Drzava", "drzava")
                         .WithMany()
-                        .HasForeignKey("drzava_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("drzava_id");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Student", b =>

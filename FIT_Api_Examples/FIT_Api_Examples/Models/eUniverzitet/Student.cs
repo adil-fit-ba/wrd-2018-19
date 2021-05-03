@@ -12,7 +12,7 @@ namespace FIT_Api_Examples.Models.eUniverzitet
         public string  prezime{ get; set; }
         public string broj_indeksa { get; set; }
         [ForeignKey(nameof(opstina_rodjenja))]
-        public int opstina_rodjenja_id { get; set; }
+        public int? opstina_rodjenja_id { get; set; }
         public Opstina opstina_rodjenja { get; set; }
         public DateTime created_time { get; set; }
         public string slika_studenta { get; set; }

@@ -55,7 +55,7 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -73,7 +73,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.Property<DateTime>("created_time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("employee_id")
@@ -110,7 +110,7 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("description")
+                    b.Property<string>("naziv")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("end_time")

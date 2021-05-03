@@ -9,7 +9,7 @@ namespace FIT_Api_Examples.Models.eUniverzitet
         public int id { get; set; }
         public string description { get; set; }
         [ForeignKey(nameof(drzava))]
-        public int? drzava_id { get; set; }
+        public int drzava_id { get; set; }
         public Drzava drzava { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace FIT_Api_Examples.Controllers
         }
 
         [HttpGet("{id}")]
-
         public Employee Get(int id)
         {
             return _dbContext.Employees.Find(id);
@@ -45,7 +44,7 @@ namespace FIT_Api_Examples.Controllers
                 employee_age = x.employee_age,
                 employee_name = x.employee_name,
                 employee_salary = x.employee_salary,
-                profile_image = "https://restapiexample.wrd.app.fit.ba/profile_images/empty.png",
+                profile_image = Config.SlikeURL + "empty.png",
                 created_time = DateTime.Now
             };
 
@@ -58,6 +57,7 @@ namespace FIT_Api_Examples.Controllers
             public float? employee_salary { get; set; }
             public int? employee_age { get; set; }
         }
+
         [HttpPost("{id}")]
         public ActionResult Update(int id, [FromBody] EmployeeUpdateVM x)
         {
@@ -68,7 +68,7 @@ namespace FIT_Api_Examples.Controllers
 
             employee.employee_age = x.employee_age;
             employee.employee_salary = x.employee_salary;
-                
+
             _dbContext.SaveChanges();
             return Ok(employee);
         }
@@ -78,7 +78,7 @@ namespace FIT_Api_Examples.Controllers
         {
             Employee employee = _dbContext.Employees.Find(id);
 
-            if (employee == null || id==1)
+            if (employee == null || id == 1)
                 return BadRequest("pogresan ID");
 
             _dbContext.Remove(employee);
@@ -100,24 +100,22 @@ namespace FIT_Api_Examples.Controllers
         [HttpGet]
         public PagedList<EmployeeGetAllVM> GetAllPaged(string name, int page_number, int items_per_page)
         {
-            var data = _dbContext.Employees.Where(x=>name==null || x.employee_name.StartsWith(name)).OrderByDescending(s=>s.id)
-                .Select(s=>new EmployeeGetAllVM
+            var data = _dbContext.Employees.Where(x => name == null || x.employee_name.StartsWith(name)).OrderByDescending(s => s.id)
+                .Select(s => new EmployeeGetAllVM
                 {
-                    id=s.id,
+                    id = s.id,
                     employee_name = s.employee_name,
                     employee_salary = s.employee_salary,
                     employee_age = s.employee_age,
                     created_time = s.created_time,
                     profile_image = s.profile_image,
-                    task_count = _dbContext.ProjectTask.Count(p => p.employee_id==s.id)
-
+                    task_count = _dbContext.ProjectTask.Count(p => p.employee_id == s.id)
                 })
                 .AsQueryable();
             return PagedList<EmployeeGetAllVM>.Create(data, page_number, items_per_page);
         }
 
         [HttpGet]
-        
         public List<EmployeeGetAllVM> GetAll(string name)
         {
             var data = _dbContext.Employees.Where(x => name == null || x.employee_name.StartsWith(name)).OrderByDescending(s => s.id)
@@ -141,8 +139,6 @@ namespace FIT_Api_Examples.Controllers
             public IFormFile profile_image { set; get; }
         }
 
-
-
         [HttpPost("{id}")]
         public Employee AddProfileImage(int id, [FromForm] EmployeeImageAddVM x)
         {
@@ -151,13 +147,10 @@ namespace FIT_Api_Examples.Controllers
             if (x.profile_image != null && employee != null)
             {
                 string ekstenzija = Path.GetExtension(x.profile_image.FileName);
-               // string contentType = x.profile_image.ContentType;
-
                 var filename = $"{Guid.NewGuid()}{ekstenzija}";
-                string folder = "wwwroot/profile_images/";
 
-                x.profile_image.CopyTo(new FileStream(folder + filename, FileMode.Create));
-                employee.profile_image = "https://employee.wrd.app.fit.ba/profile_images/" + filename;
+                x.profile_image.CopyTo(new FileStream(Config.SlikeFolder + filename, FileMode.Create));
+                employee.profile_image = Config.SlikeURL + filename;
                 _dbContext.SaveChanges();
             }
 
