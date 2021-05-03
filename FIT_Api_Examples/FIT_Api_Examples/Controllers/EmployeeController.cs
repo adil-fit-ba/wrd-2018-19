@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using FIT_Api_Examples.Data;
 using FIT_Api_Examples.Helper;
 using FIT_Api_Examples.Models;
+using FIT_Api_Examples.Models.eUniverzitet;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -131,6 +134,34 @@ namespace FIT_Api_Examples.Controllers
                 })
                 .AsQueryable();
             return data.Take(100).ToList();
+        }
+
+        public class EmployeeImageAddVM
+        {
+            public IFormFile profile_image { set; get; }
+        }
+
+
+
+        [HttpPost("{id}")]
+        public Employee AddProfileImage(int id, [FromForm] EmployeeImageAddVM x)
+        {
+            Employee employee = _dbContext.Employees.Find(id);
+
+            if (x.profile_image != null && employee != null)
+            {
+                string ekstenzija = Path.GetExtension(x.profile_image.FileName);
+               // string contentType = x.profile_image.ContentType;
+
+                var filename = $"{Guid.NewGuid()}{ekstenzija}";
+                string folder = "wwwroot/profile_images/";
+
+                x.profile_image.CopyTo(new FileStream(folder + filename, FileMode.Create));
+                employee.profile_image = "https://employee.wrd.app.fit.ba/profile_images/" + filename;
+                _dbContext.SaveChanges();
+            }
+
+            return employee;
         }
     }
 }
