@@ -43,8 +43,8 @@ namespace FIT_Api_Examples.Controllers
         {
             var newEmployee = new Student
             {
-                ime = x.ime,
-                prezime = x.prezime,
+                ime = x.ime.RemoveTags(),
+                prezime = x.prezime.RemoveTags(),
                 broj_indeksa = x.broj_indeksa,
                 opstina_rodjenja_id = x.opstina_rodjenja_id,
                 slika_studenta = Config.SlikeURL + "empty.png",
@@ -71,8 +71,8 @@ namespace FIT_Api_Examples.Controllers
             if (student == null)
                 return BadRequest("pogresan ID");
 
-            student.ime = x.ime;
-            student.prezime = x.prezime;
+            student.ime = x.ime.RemoveTags();
+            student.prezime = x.prezime.RemoveTags();
             student.broj_indeksa = x.broj_indeksa;
             student.opstina_rodjenja_id = x.opstina_rodjenja_id;
 
@@ -96,7 +96,7 @@ namespace FIT_Api_Examples.Controllers
 
       
         [HttpGet]
-        public PagedList<Student> GetAllPaged(string ime_prezime, int page_number, int items_per_page)
+        public PagedList<Student> GetAllPaged(string ime_prezime, int items_per_page, int page_number= 1)
         {
             var data = _dbContext.Student
                 .Include(s=>s.opstina_rodjenja.drzava)

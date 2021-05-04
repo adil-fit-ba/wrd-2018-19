@@ -42,7 +42,7 @@ namespace FIT_Api_Examples.Controllers
             var newEmployee = new Employee
             {
                 employee_age = x.employee_age,
-                employee_name = x.employee_name,
+                employee_name = x.employee_name.RemoveTags(),
                 employee_salary = x.employee_salary,
                 profile_image = Config.SlikeURL + "empty.png",
                 created_time = DateTime.Now
@@ -56,6 +56,7 @@ namespace FIT_Api_Examples.Controllers
         {
             public float? employee_salary { get; set; }
             public int? employee_age { get; set; }
+            public string employee_name { get; set; }
         }
 
         [HttpPost("{id}")]
@@ -66,6 +67,7 @@ namespace FIT_Api_Examples.Controllers
             if (employee == null)
                 return BadRequest("pogresan ID");
 
+            employee.employee_name = x.employee_name.RemoveTags();
             employee.employee_age = x.employee_age;
             employee.employee_salary = x.employee_salary;
 
@@ -76,9 +78,12 @@ namespace FIT_Api_Examples.Controllers
         [HttpPost("{id}")]
         public ActionResult Delete(int id)
         {
+            if (_dbContext.Employees.Count() < 100)
+                return BadRequest("ne moze se obrisati ako je broj zapisa manji od 100");
+          
             Employee employee = _dbContext.Employees.Find(id);
-
-            if (employee == null || id == 1)
+            
+            if (employee == null || id == 1 )
                 return BadRequest("pogresan ID");
 
             _dbContext.Remove(employee);
@@ -98,7 +103,7 @@ namespace FIT_Api_Examples.Controllers
             public int task_count { get; set; }
         }
         [HttpGet]
-        public PagedList<EmployeeGetAllVM> GetAllPaged(string name, int page_number, int items_per_page)
+        public PagedList<EmployeeGetAllVM> GetAllPaged(string name, int items_per_page, int page_number=1)
         {
             var data = _dbContext.Employees.Where(x => name == null || x.employee_name.StartsWith(name)).OrderByDescending(s => s.id)
                 .Select(s => new EmployeeGetAllVM
