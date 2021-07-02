@@ -36,6 +36,7 @@ namespace FIT_Api_Examples.Controllers
             public string prezime { get; set; }
             public string broj_indeksa { get; set; }
             public int? opstina_rodjenja_id { get; set; }
+            public DateTime? datum_rodjenja { get; set; }
         }
 
         [HttpPost]
@@ -46,6 +47,7 @@ namespace FIT_Api_Examples.Controllers
                 ime = x.ime.RemoveTags(),
                 prezime = x.prezime.RemoveTags(),
                 broj_indeksa = x.broj_indeksa,
+                datum_rodjenja = x.datum_rodjenja,
                 opstina_rodjenja_id = x.opstina_rodjenja_id,
                 slika_studenta = Config.SlikeURL + "empty.png",
                 created_time = DateTime.Now
@@ -60,6 +62,7 @@ namespace FIT_Api_Examples.Controllers
             public string ime { get; set; }
             public string prezime { get; set; }
             public string broj_indeksa { get; set; }
+            public DateTime? datum_rodjenja{ get; set; }
             public int opstina_rodjenja_id { get; set; }
         }
 
@@ -74,6 +77,7 @@ namespace FIT_Api_Examples.Controllers
             student.ime = x.ime.RemoveTags();
             student.prezime = x.prezime.RemoveTags();
             student.broj_indeksa = x.broj_indeksa;
+            student.datum_rodjenja = x.datum_rodjenja;
             student.opstina_rodjenja_id = x.opstina_rodjenja_id;
 
             _dbContext.SaveChanges();
@@ -117,7 +121,7 @@ namespace FIT_Api_Examples.Controllers
 
         public class StudentImageAddVM
         {
-            public IFormFile profile_image { set; get; }
+            public IFormFile slika_studenta { set; get; }
         }
 
         [HttpPost("{id}")]
@@ -127,16 +131,16 @@ namespace FIT_Api_Examples.Controllers
             {
                 Student student = _dbContext.Student.Include(s=>s.opstina_rodjenja.drzava).FirstOrDefault(s => s.id == id);
 
-                if (x.profile_image != null && student != null)
+                if (x.slika_studenta != null && student != null)
                 {
-                    if (x.profile_image.Length > 300 * 1000)
+                    if (x.slika_studenta.Length > 300 * 1000)
                         return BadRequest("max velicina fajla je 300 KB");
 
-                    string ekstenzija = Path.GetExtension(x.profile_image.FileName);
+                    string ekstenzija = Path.GetExtension(x.slika_studenta.FileName);
 
                     var filename = $"{Guid.NewGuid()}{ekstenzija}";
 
-                    x.profile_image.CopyTo(new FileStream(Config.SlikeFolder + filename, FileMode.Create));
+                    x.slika_studenta.CopyTo(new FileStream(Config.SlikeFolder + filename, FileMode.Create));
                     student.slika_studenta = Config.SlikeURL + filename;
                     _dbContext.SaveChanges();
                 }

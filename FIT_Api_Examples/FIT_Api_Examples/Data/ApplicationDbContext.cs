@@ -17,6 +17,7 @@ namespace FIT_Api_Examples.Data
         public DbSet<Drzava> Drzava { get; set; }
         public DbSet<Opstina> Opstina { get; set; }
         public DbSet<Student> Student { get; set; }
+        public DbSet<Ispit20210601Posalji> Ispit20210601Posalji { get; set; }
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {

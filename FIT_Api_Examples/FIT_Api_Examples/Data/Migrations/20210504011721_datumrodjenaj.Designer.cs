@@ -4,14 +4,16 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Api_Examples.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504011721_datumrodjenaj")]
+    partial class datumrodjenaj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,33 +46,6 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Models.Ispit20210601Posalji", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Adresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Grad")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LicniBrojKupca")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Upit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Ispit20210601Posalji");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Models.Project", b =>
