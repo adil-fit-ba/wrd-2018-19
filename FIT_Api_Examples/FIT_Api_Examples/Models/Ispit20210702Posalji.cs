@@ -11,7 +11,7 @@ namespace FIT_Api_Examples.Models
         public string ImePrezime { get; set; }
         public string Naslov { get; set; }
         public string Poruka { get; set; }
-        public string ZaposlenikID { get; set; }
         public DateTime DatumVrijeme { get; set; }
+        public string Telefon { get; set; }
     }
 }

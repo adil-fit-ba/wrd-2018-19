@@ -48,7 +48,7 @@ namespace FIT_Api_Examples.Controllers
                 }  ,
                 new Student4VM
                 {   ID = "2",
-                    ImePrezime = "Kemal Maric",
+                    ImePrezime = "Adil Joldic",
                     RadnoMjesto = "Astronaut",
                     Opis = "Phasellus 2 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
                     SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team3.png"
@@ -78,7 +78,8 @@ namespace FIT_Api_Examples.Controllers
                 ImePrezime = x.ImePrezime,
                 Naslov = x.Naslov,
                 Poruka = x.Poruka,
-                ZaposlenikID = x.ZaposlenikID,
+                Telefon = x.Telefon,
+          
                 DatumVrijeme = DateTime.Now
             };
             _dbContext.Add(novi);
