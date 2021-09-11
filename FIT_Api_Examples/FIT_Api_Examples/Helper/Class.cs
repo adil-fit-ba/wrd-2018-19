@@ -12,5 +12,10 @@ namespace FIT_Api_Examples.Helper
         {
             return Regex.Replace(input, "<.*?>", String.Empty);
         }
+
+        public static List<T> GetRandomElements<T>(this IEnumerable<T> list, int elementsCount)
+        {
+            return list.OrderBy(arg => Guid.NewGuid()).Take(elementsCount).ToList();
+        }
     }
 }

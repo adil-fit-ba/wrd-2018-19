@@ -34,40 +34,76 @@ namespace FIT_Api_Examples.Controllers
             public string ID { get; set; }
         }
 
-        [HttpGet]
-        public List<Student4VM> Get4Studenta()
-        {
-            return new List<Student4VM>
+        List<Student4VM> list => new List<Student4VM>
             {
                 new Student4VM
                 {   ID = "1",
-                    ImePrezime = "Elmir Babovic",
+                    ImePrezime = "Radnik 00001",
                     RadnoMjesto = "CEO",
                     Opis = "Phasellus 1 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
                     SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team2.png"
                 }  ,
                 new Student4VM
                 {   ID = "2",
-                    ImePrezime = "Adil Joldic",
+                    ImePrezime = "Radnik 00002",
                     RadnoMjesto = "Astronaut",
                     Opis = "Phasellus 2 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
                     SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team3.png"
                 },
                 new Student4VM
                 {   ID = "3",
-                    ImePrezime = "Iris Memic",
+                    ImePrezime = "Radnik 00003",
                     RadnoMjesto = "Pilot",
                     Opis = "Phasellus 3 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
                     SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team4.png"
                 },
                 new Student4VM
                 {   ID = "4",
-                    ImePrezime = "Edina Cmanjcanin",
+                    ImePrezime = "Radnik 00004",
                     RadnoMjesto = "Project Manager",
                     Opis = "Phasellus 4 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
                     SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team1.png"
                 }
+                ,
+                new Student4VM
+                {   ID = "5",
+                    ImePrezime = "Radnik 00005",
+                    RadnoMjesto = "Laborant",
+                    Opis = "Phasellus 4 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
+                    SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team5.png"
+                },
+                new Student4VM
+                {   ID = "6",
+                    ImePrezime = "Radnik 00006",
+                    RadnoMjesto = "Rektor",
+                    Opis = "Phasellus 4 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
+                    SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team6.png"
+                },
+                new Student4VM
+                {   ID = "7",
+                    ImePrezime = "Radnik 00007",
+                    RadnoMjesto = "Profesor",
+                    Opis = "Phasellus 4 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
+                    SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team7.png"
+                },
+                new Student4VM
+                {   ID = "8",
+                    ImePrezime = "Radnik 00008",
+                    RadnoMjesto = "Asisten",
+                    Opis = "Phasellus 4 eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.",
+                    SlikaPutanja = "https://restapiexample.wrd.app.fit.ba/profile_images/team8.png"
+                }
             };
+        
+        [HttpGet]
+        public List<Student4VM> Get4Studenta()
+        {
+            return list.GetRandomElements(4);
+        }
+        [HttpGet]
+        public List<Student4VM> Get8Studenta()
+        {
+            return list.GetRandomElements(8);
         }
 
         [HttpPost]
