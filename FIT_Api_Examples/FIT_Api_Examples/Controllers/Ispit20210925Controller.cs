@@ -16,25 +16,19 @@ namespace FIT_Api_Examples.Controllers
     //[Authorize]
     [ApiController]
     [Route("[controller]/[action]")]
-    public class Ispit20210702Controller : ControllerBase
+    public class Ispit20210925Controller : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public Ispit20210702Controller(ApplicationDbContext dbContext)
+        public Ispit20210925Controller(ApplicationDbContext dbContext)
         {
             this._dbContext = dbContext;
         }
-
-        
+       
         [HttpGet]
-        public List<Student4VM> Get4Studenta()
+        public List<Student4VM> FindByExpertType(string type)
         {
-            return Helper.Data.listRadnici.GetRandomElements(4);
-        }
-        [HttpGet]
-        public List<Student4VM> Get8Studenta()
-        {
-            return Helper.Data.listRadnici.GetRandomElements(8);
+            return Helper.Data.listRadnici.Where(s=> string.IsNullOrEmpty(type) || s.RadnoMjesto == type).ToList().GetRandomElements(4);
         }
         
         [HttpPost]
@@ -53,12 +47,6 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
 
             return novi;
-        }
-
-        [HttpGet]
-        public List<Ispit20210702Posalji> Get()
-        {
-            return _dbContext.Ispit20210702Posalji.OrderByDescending(s => s.ID).Take(50).ToList();
         }
     }
 }
