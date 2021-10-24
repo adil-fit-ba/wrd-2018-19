@@ -59,7 +59,6 @@ namespace FIT_Api_Examples
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-
             app.UseHttpsRedirection();
             app.UseSwagger();
 
@@ -71,7 +70,11 @@ namespace FIT_Api_Examples
             });
 
             app.UseCors(
-               options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+               options => options
+               .SetIsOriginAllowed(x => _ = true)
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials()
            ); //This needs to set everything allowed
 
 

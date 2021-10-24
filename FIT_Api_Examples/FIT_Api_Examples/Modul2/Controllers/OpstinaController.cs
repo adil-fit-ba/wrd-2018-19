@@ -6,6 +6,7 @@ using FIT_Api_Examples.Data;
 using FIT_Api_Examples.Helper;
 using FIT_Api_Examples.Models;
 using FIT_Api_Examples.Models.eUniverzitet;
+using FIT_Api_Examples.Modul2.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -24,12 +25,6 @@ namespace FIT_Api_Examples.Controllers
             this._dbContext = dbContext;
         }
 
-        public class OpstinaAddVM
-        {
-            public string opis { get; set; }
-            public int drzava_id { get; set; }
-        }
-
         [HttpPost]
         public Opstina Add([FromBody] OpstinaAddVM x)
         {
@@ -43,7 +38,6 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
             return newEmployee;
         }
-
 
         [HttpGet]
         public List<CmbStavke> GetByDrzava(int drzava_id)

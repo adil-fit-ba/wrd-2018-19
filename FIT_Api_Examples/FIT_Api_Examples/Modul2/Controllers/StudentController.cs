@@ -6,6 +6,7 @@ using FIT_Api_Examples.Data;
 using FIT_Api_Examples.Helper;
 using FIT_Api_Examples.Models;
 using FIT_Api_Examples.Models.eUniverzitet;
+using FIT_Api_Examples.Modul2.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,14 +31,6 @@ namespace FIT_Api_Examples.Controllers
         {
             return Ok(_dbContext.Student.Include(s => s.opstina_rodjenja.drzava).FirstOrDefault(s => s.id == id)); ;
         }
-        public class StudentAddVM
-        {
-            public string ime { get; set; }
-            public string prezime { get; set; }
-            public string broj_indeksa { get; set; }
-            public int? opstina_rodjenja_id { get; set; }
-            public DateTime? datum_rodjenja { get; set; }
-        }
 
         [HttpPost]
         public ActionResult Add([FromBody] StudentAddVM x)
@@ -57,14 +50,7 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
             return Get(newEmployee.id);
         }
-        public class StudentUpdateVM
-        {
-            public string ime { get; set; }
-            public string prezime { get; set; }
-            public string broj_indeksa { get; set; }
-            public DateTime? datum_rodjenja{ get; set; }
-            public int opstina_rodjenja_id { get; set; }
-        }
+        
 
         [HttpPost("{id}")]
         public ActionResult Update(int id, [FromBody] StudentUpdateVM x)
@@ -97,7 +83,6 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
             return Ok(student);
         }
-
       
         [HttpGet]
         public PagedList<Student> GetAllPaged(string ime_prezime, int items_per_page, int page_number= 1)
@@ -117,11 +102,6 @@ namespace FIT_Api_Examples.Controllers
                 .Where(x => ime_prezime == null || (x.ime + " " + x.prezime).StartsWith(ime_prezime) || (x.prezime + " " + x.ime).StartsWith(ime_prezime)).OrderByDescending(s => s.prezime).ThenByDescending(s => s.ime)
                 .AsQueryable();
             return data.Take(100).ToList();
-        }
-
-        public class StudentImageAddVM
-        {
-            public IFormFile slika_studenta { set; get; }
         }
 
         [HttpPost("{id}")]

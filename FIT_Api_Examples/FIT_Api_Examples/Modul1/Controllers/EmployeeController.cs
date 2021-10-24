@@ -6,6 +6,7 @@ using FIT_Api_Examples.Data;
 using FIT_Api_Examples.Helper;
 using FIT_Api_Examples.Models;
 using FIT_Api_Examples.Models.eUniverzitet;
+using FIT_Api_Examples.Modul1.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -29,12 +30,6 @@ namespace FIT_Api_Examples.Controllers
         {
             return _dbContext.Employees.Find(id);
         }
-        public class EmployeeAddVM
-        {
-            public string employee_name { get; set; }
-            public float? employee_salary { get; set; }
-            public int? employee_age { get; set; }
-        }
 
         [HttpPost]
         public Employee Add([FromBody] EmployeeAddVM x)
@@ -52,12 +47,7 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
             return newEmployee;
         }
-        public class EmployeeUpdateVM
-        {
-            public float? employee_salary { get; set; }
-            public int? employee_age { get; set; }
-            public string employee_name { get; set; }
-        }
+     
 
         [HttpPost("{id}")]
         public ActionResult Update(int id, [FromBody] EmployeeUpdateVM x)
@@ -91,17 +81,7 @@ namespace FIT_Api_Examples.Controllers
             _dbContext.SaveChanges();
             return Ok(employee);
         }
-
-        public class EmployeeGetAllVM
-        {
-            public int id { get; set; }
-            public string employee_name { get; set; }
-            public float? employee_salary { get; set; }
-            public int? employee_age { get; set; }
-            public DateTime created_time { get; set; }
-            public string profile_image { get; set; }
-            public int task_count { get; set; }
-        }
+       
         [HttpGet]
         public PagedList<EmployeeGetAllVM> GetAllPaged(string name, int items_per_page, int page_number=1)
         {
@@ -137,11 +117,6 @@ namespace FIT_Api_Examples.Controllers
                 })
                 .AsQueryable();
             return data.Take(100).ToList();
-        }
-
-        public class EmployeeImageAddVM
-        {
-            public IFormFile profile_image { set; get; }
         }
 
         [HttpPost("{id}")]
