@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FIT_Api_Examples.Models
+namespace FIT_Api_Examples.Modul1.Models
 {
     public class ProjectTask
     { 

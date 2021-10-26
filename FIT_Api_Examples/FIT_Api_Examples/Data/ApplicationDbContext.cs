@@ -1,5 +1,5 @@
-﻿using FIT_Api_Examples.Models;
-using FIT_Api_Examples.Models.eUniverzitet;
+﻿using FIT_Api_Examples.Modul1.Models;
+using FIT_Api_Examples.Modul2.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;

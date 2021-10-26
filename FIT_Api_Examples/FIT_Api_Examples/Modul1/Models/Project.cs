@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace FIT_Api_Examples.Models
+namespace FIT_Api_Examples.Modul1.Models
 {
     public class Project
     { 

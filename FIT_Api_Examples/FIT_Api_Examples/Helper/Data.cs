@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FIT_Api_Examples.Controllers;
 
 namespace FIT_Api_Examples.Helper
 {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FIT_Api_Examples.Models.eUniverzitet
+﻿namespace FIT_Api_Examples.Helper
 {
     public class CmbStavke
     { 

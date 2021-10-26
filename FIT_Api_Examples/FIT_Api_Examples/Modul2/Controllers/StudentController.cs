@@ -4,15 +4,12 @@ using System.IO;
 using System.Linq;
 using FIT_Api_Examples.Data;
 using FIT_Api_Examples.Helper;
-using FIT_Api_Examples.Models;
-using FIT_Api_Examples.Models.eUniverzitet;
+using FIT_Api_Examples.Modul2.Models;
 using FIT_Api_Examples.Modul2.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
-namespace FIT_Api_Examples.Controllers
+namespace FIT_Api_Examples.Modul2.Controllers
 {
     //[Authorize]
     [ApiController]
@@ -35,7 +32,7 @@ namespace FIT_Api_Examples.Controllers
         [HttpPost]
         public ActionResult Add([FromBody] StudentAddVM x)
         {
-            var newEmployee = new Student
+            var newStudent = new Student
             {
                 ime = x.ime.RemoveTags(),
                 prezime = x.prezime.RemoveTags(),
@@ -46,9 +43,9 @@ namespace FIT_Api_Examples.Controllers
                 created_time = DateTime.Now
             };
 
-            _dbContext.Add(newEmployee);
+            _dbContext.Add(newStudent);
             _dbContext.SaveChanges();
-            return Get(newEmployee.id);
+            return Get(newStudent.id);
         }
         
 
