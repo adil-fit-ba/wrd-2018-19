@@ -4,14 +4,16 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Api_Examples.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211026090224_Prijava")]
+    partial class Prijava
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,8 +274,6 @@ namespace FIT_Api_Examples.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PredmetID");
-
                     b.ToTable("Ispit");
                 });
 
@@ -357,15 +357,6 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.HasOne("FIT_Api_Examples.Modul2.Models.Opstina", "opstina_rodjenja")
                         .WithMany()
                         .HasForeignKey("opstina_rodjenja_id");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul3.Models.Predmet", "predmet")
-                        .WithMany()
-                        .HasForeignKey("PredmetID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -4,14 +4,16 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Api_Examples.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211026085902_IspitPrijave")]
+    partial class IspitPrijave
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,8 +274,6 @@ namespace FIT_Api_Examples.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PredmetID");
-
                     b.ToTable("Ispit");
                 });
 
@@ -296,27 +296,6 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Predmet");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.PrijavaIspita", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DatumPrijave")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IspitID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("PrijavaIspita");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>
@@ -357,15 +336,6 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.HasOne("FIT_Api_Examples.Modul2.Models.Opstina", "opstina_rodjenja")
                         .WithMany()
                         .HasForeignKey("opstina_rodjenja_id");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul3.Models.Predmet", "predmet")
-                        .WithMany()
-                        .HasForeignKey("PredmetID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
