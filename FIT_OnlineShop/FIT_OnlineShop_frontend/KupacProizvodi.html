@@ -1,0 +1,325 @@
+<DOCTYPE <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Proizvodi</title>
+    </head>
+
+    <style>
+        form label {
+            width: 100%;
+            display: block;
+        }
+
+        form select {
+            display: block;
+            width: 100%;
+        }
+
+        form input {
+            display: block;
+            width: 100%;
+        }
+
+        form textarea {
+            display: block;
+            width: 100%;
+        }
+    </style>
+
+    <body>
+
+
+        <div style="color:gray" id="infoDiv"></div>
+        <br>
+
+        <h2>Korpa</h2>
+        <table id="korpaTabela" border="1px">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Naziv</th>
+                    <th>Cijena</th>
+                    <th>Jedinica mjere</th>
+                    <th>Kolicina</th>
+                    <th>Iznos</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div>
+            <label>Ukupno</label><input id="UkupnoText" disabled /><br />
+            <button onclick="btnKorpaKupi()">Kupi</button>
+            <button onclick="btnKorpaOcisti()">Ocisti korpu</button>
+        </div>
+
+        <div id="NarudzbaKontaktDiv" style="display: none">
+            <form>
+                <label for="Ime">Ime</label>
+                <input id="dostavaIme" value="kupac ime" />
+
+                <label for="dostavaAdresa">Adresa</label>
+                <input id="dostavaAdresa" value="kupac adresa" />
+
+                <label for="dostavaPostanskiBroj">Poštanski broj</label>
+                <input id="dostavaPostanskiBroj" value="88104" />
+
+                <label for="dostavaOpstinaID">Opština</label>
+                <select id="dostavaOpstinaID"></select>
+
+                <label for="dostavaTelefon">Telefon</label>
+                <input id="dostavaTelefon" value="061-888-8888" />
+
+                <label for="napomena">Napomena</label>
+                <textarea id="napomena"></textarea>
+                <br />
+                <input type="button" value="Pošalji narudžbu" onclick="btnPosaljiNarudzbu()" />
+            </form>
+        </div>
+
+
+        <h2>Katalog</h2>
+
+        <table id="katalogTabela" border="1px">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Naziv</th>
+                    <th>Cijena</th>
+                    <th>Jedinica mjere</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </body>
+    <script src="./fit-helper.js"></script>
+    <script src="./fit-shop.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-all.js"></script>
+
+    <script>
+
+        function btnPosaljiNarudzbu() {
+            var z = new Object();
+            z.dostavaIme = document.getElementById("dostavaIme").value;
+            z.dostavaAdresa = document.getElementById("dostavaAdresa").value;
+            z.dostavaPostanskiBroj = document.getElementById("dostavaPostanskiBroj").value;
+            z.dostavaTelefon = document.getElementById("dostavaTelefon").value;
+            z.dostavaOpstinaID = document.getElementById("dostavaOpstinaID").value;
+            z.napomena = document.getElementById("napomena").value;
+            z.stavke = new Array();
+
+            var proizvodKorpaMap = getKorpaMap();
+            proizvodKorpaMap.forEach((proizvodUkorpi, id, map) => {
+                var s = new Object();
+                s.proizvodID = id;
+                s.kolicina = proizvodUkorpi.kolicina;
+
+                z.stavke.push(s);
+            });
+
+            var strJson = JSON.stringify(z);
+            var mojUrl = mojePostavke.adresaServera + 'Narudzba/Dodaj';
+
+            fetch(mojUrl, {
+                method: 'POST', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa POST
+                headers: {
+                    'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
+                    'MojAutentifikacijaToken': getMojToken(), // 
+                },
+                body: strJson,
+            })
+                .then(response => {
+                    if (response.status == 401) {
+                        //Neautorizovan
+                        //window.top.location = "Login.html";
+                    }
+                    if (!response.ok) { //backend api javlja gresku
+                        return Promise.reject(response.status + " " + response.statusText);
+                    }
+                    return response.json();// u dokumentaciji API-a piše da metoda vraća JSON
+                })
+                .then(r => {
+                    porukaSuccess("uspješno snimljeno: " + r.poruka);
+                    saveKorpaMap(new Map());
+                    redirekcija("./KupacNarudzbe.html");
+                })
+                .catch((error) => {
+                    porukaError("Greska: " + error);
+                    LoaderZaustavi();
+                });
+        }
+
+        function btnKorpaKupi() {
+            document.getElementById("NarudzbaKontaktDiv").style.display = "block";
+        }
+
+        function btnKorpaOcisti() {
+            saveKorpaMap(new Map());
+            dodajRowsKorpa();
+        }
+
+        var proizvodKatalogMap = new Map();
+
+        function dodajRowsKatalog(n) {
+            document.querySelector("#katalogTabela tbody").innerHTML = "";
+            for (var i = 0; i < n.length; i++) {
+                var proizvod = new ProizvodVM(n[i]);
+
+                proizvodKatalogMap.set(proizvod.id, proizvod);
+
+                var tr = document.createElement('tr');
+                tr.id = "red-" + proizvod.id;
+                document.querySelector("#katalogTabela tbody").appendChild(tr);
+
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                td1.innerText = proizvod.id;
+                td2.innerText = proizvod.naziv;
+                td3.innerText = proizvod.cijena;
+                td4.innerText = proizvod.jedinicaMjere;
+
+                var b1 = document.createElement('button');
+                b1.innerText = "Todo: Detalji";
+                b1.setAttribute("onclick", "btnDetalji(" + proizvod.id + ")");
+                td5.appendChild(b1);
+
+                var b2 = document.createElement('button');
+                b2.innerText = "Dodaj u korpu";
+                b2.setAttribute("onclick", "korpaDodajProizvodKolicina(" + proizvod.id + ", 1)");
+                td5.appendChild(b2);
+            }
+        }
+
+        function dodajRowsKorpa() {
+            document.querySelector("#korpaTabela tbody").innerHTML = "";
+
+            var ukupno = 0;
+            var proizvodKorpaMap = getKorpaMap();
+            proizvodKorpaMap.forEach((proizvod, id, map) => {
+
+                var tr = document.createElement('tr');
+                tr.id = "red-" + proizvod.id;
+                document.querySelector("#korpaTabela tbody").appendChild(tr);
+
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
+                var td6 = document.createElement('td');
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                td1.innerText = proizvod.id;
+                td2.innerText = proizvod.naziv;
+                td3.innerText = proizvod.cijena;
+                td4.innerText = proizvod.jedinicaMjere;
+
+                var iznos = proizvod.kolicina * proizvod.cijena;
+                td6.innerText = iznos;
+                ukupno += iznos;
+
+                var b1 = document.createElement('button');
+                b1.innerText = "+";
+                b1.setAttribute("onclick", "korpaDodajProizvodKolicina(" + proizvod.id + ", 1)");
+                td5.appendChild(b1);
+
+                var span = document.createElement('span');
+                span.innerText = proizvod.kolicina;
+                td5.appendChild(span);
+
+                var b2 = document.createElement('button');
+                b2.innerText = "-";
+                b2.setAttribute("onclick", "korpaDodajProizvodKolicina(" + proizvod.id + ", -1)");
+                td5.appendChild(b2);
+            });
+
+            UkupnoText.value = ukupno;
+        }
+
+        function ProizvodVM(proizvod) {
+            this.id = proizvod.id;
+            this.naziv = proizvod.naziv;
+            this.cijena = proizvod.cijena;
+            this.jedinicaMjere = proizvod.jedinicaMjere;
+            this.kolicina = 0;
+        }
+
+        function ProizvodUKorpi(proizvod, kolicina) {
+            this.proizvod = proizvod;
+            this.kolicina = kolicina;
+        }
+
+        function getProizvodiAll() {
+            var mojUrl = mojePostavke.adresaServera + 'Proizvod/GetAll';
+
+            LoaderPokreni();
+            fetch(mojUrl, {
+                method: 'GET', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa GET
+                headers: {
+                    'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
+                    'MojAutentifikacijaToken': getMojToken(), // 
+                },
+            })
+                .then(response => {
+                    if (response.status == 401) {
+                        //Neautorizovan
+                        //window.top.location = "Login.html";
+                    }
+                    if (!response.ok) { //backend api javlja gresku
+                        return Promise.reject(response.status + " " + response.statusText);
+                    }
+                    return response.json();// u dokumentaciji API-a piše da metoda vraća JSON
+                })
+                .then(r => {
+                    LoaderZaustavi();
+                    dodajRowsKatalog(r);
+                    porukaSuccess("uspješno downloadovano");
+                })
+                .catch((error) => {
+                    porukaError("Greska: " + error);
+                    LoaderZaustavi();
+                });
+        }
+
+        function btnDetalji(proizvodID) {
+
+        }
+
+        function korpaDodajProizvodKolicina(proizvodID, kolicina) {
+            var proizvodKorpaMap = getKorpaMap();
+
+            var pk = proizvodKorpaMap.get(proizvodID);
+            if (pk == null) {
+                pk = proizvodKatalogMap.get(proizvodID);
+                proizvodKorpaMap.set(pk.id, pk);
+            }
+            pk.kolicina += kolicina;
+            if (pk.kolicina < 0) pk.kolicina = 0;
+
+            saveKorpaMap(proizvodKorpaMap);
+            dodajRowsKorpa();
+        }
+
+        CekajLoadSkripte(x => {
+            dodajRowsKorpa();
+            getProizvodiAll();
+        });
+
+    </script>
+
+
+    </html>

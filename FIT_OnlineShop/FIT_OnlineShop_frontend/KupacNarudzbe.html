@@ -1,0 +1,119 @@
+<DOCTYPE <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Narudžbe</title>
+    </head>
+
+    <body>
+
+        <h2>Narudžbe</h2>
+        <table id="narudzbeTabela" border="1px">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Datum</th>
+                    <th>Ime</th>
+                    <th>Adresa</th>
+                    <th>PTT i opstina</th>
+                    <th>Napomena</th>
+                    <th>Telefon</th>
+                    <th>Iznos narudzbe</th>
+                    <th>Cijena dostave</th>
+                    <th>Za platiti</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </body>
+    <script src="./fit-helper.js"></script>
+    <script src="./fit-shop.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-all.js"></script>
+
+    <script>
+
+        function getNarudzbeAll() {
+            var mojUrl = mojePostavke.adresaServera + 'Narudzba/GetAll';
+
+            LoaderPokreni();
+            fetch(mojUrl, {
+                method: 'GET', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa GET
+                headers: {
+                    'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
+                    'MojAutentifikacijaToken': getMojToken(), // 
+                },
+            })
+                .then(response => {
+                    if (response.status == 401) {
+                        //Neautorizovan
+                        //window.top.location = "Login.html";
+                    }
+                    if (!response.ok) { //backend api javlja gresku
+                        return Promise.reject(response.status + " " + response.statusText);
+                    }
+                    return response.json();// u dokumentaciji API-a piše da metoda vraća JSON
+                })
+                .then(r => {
+                    LoaderZaustavi();
+                    dodajRowsNarudzbe(r);
+                    porukaSuccess("uspješno downloadovano");
+                })
+                .catch((error) => {
+                    porukaError("Greska: " + error);
+                    LoaderZaustavi();
+                });
+        }
+
+        function dodajRowsNarudzbe(n) {
+
+            document.querySelector("#narudzbeTabela tbody").innerHTML = "";
+            for (var i = 0; i < n.length; i++) {
+                var row = n[i];
+
+                var tr = document.createElement('tr');
+                tr.id = "red-" + row.id;
+                document.querySelector("#narudzbeTabela tbody").appendChild(tr);
+
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
+                var td6 = document.createElement('td');
+                var td7 = document.createElement('td');
+                var td8 = document.createElement('td');
+                var td9 = document.createElement('td');
+                var td10 = document.createElement('td');
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                tr.appendChild(td7);
+                tr.appendChild(td8);
+                tr.appendChild(td9);
+                tr.appendChild(td10);
+                td1.innerText = row.narudzbaId;
+                td2.innerText = new Date(row.datumNarudzbe).toLocaleDateString();
+                td3.innerText = row.dostavaIme;
+                td4.innerText = row.dostavaAdresa;
+                td5.innerText = row.dostavaPostanskiBroj + " " +row.dostavaOpstina;
+                td6.innerText = row.dostavaTelefon;
+                td7.innerText = row.napomena;
+                td8.innerText = row.iznosNarudzbe;
+                td9.innerText = row.cijenaDostave;
+                td10.innerText = row.iznosNarudzbe+row.cijenaDostave;
+
+                
+            }
+        }
+
+
+        CekajLoadSkripte(x=>{
+            getNarudzbeAll();
+        });
+    </script>
+
+    </html>

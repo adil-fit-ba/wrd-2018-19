@@ -1,0 +1,79 @@
+<DOCTYPE <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Login</title>
+
+    </head>
+
+    <body>
+
+        Korisnicko Ime:<br />
+        <input type="text" id="username" value="mostar">
+        <br /> <br />
+
+        Password:
+        <br />
+        <input type="password" id="password" value="mostar">
+        <br /> <br />
+
+
+        <br />
+        <br />
+        <button onclick="Login()">Login</button>
+        <a href="./Registracija.html">Register</a><br />
+
+
+        <div style="color:gray" id="infoDiv"></div>
+        <br>
+    </body>
+    <script src="./fit-helper.js"></script>
+    <script src="./fit-shop.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-all.js"></script>
+
+    <script>
+        function Login() {
+            var z = new Object();
+            z.username = document.getElementById("username").value;
+            z.password = document.getElementById("password").value;
+            var strJson = JSON.stringify(z);
+
+            var mojUrl = mojePostavke.adresaServera + 'Autentifikcija/Login';
+
+            LoaderPokreni()
+            fetch(mojUrl, {
+                method: 'POST', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa POST
+                headers: {
+                    'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
+                },
+                body: strJson,
+            })
+                .then(response => {
+                    if (response.status == 401) {
+                        //Neautorizovan
+                        //window.top.location = "Login.html";
+                    }
+                    if (!response.ok) { //backend api javlja gresku
+                        return Promise.reject(response.status + " " + response.statusText);
+                    }
+                    return response.json();// u dokumentaciji API-a piše da metoda vraća JSON
+                })
+                .then(r => {
+                    loginToken = r.tokenString;
+                    var p = "uspješan login: " + r.ime + " " + r.prezime + " | token string: " + loginToken;
+                    porukaSuccess(p);
+                    redirekcija("./Kupac.html");
+                    setMojToken(loginToken);
+                    LoaderZaustavi();
+                })
+                .catch((error) => {
+                    porukaError("Greska: " + error);
+                    LoaderZaustavi();
+                });
+        }
+
+
+    </script>
+
+    </html>
