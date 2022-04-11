@@ -4,12 +4,19 @@
     <head>
         <meta charset="utf-8" />
         <title>Narudžbe</title>
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-messagebox.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-loader.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-dijalog.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <style>
+
+        </style>
     </head>
 
     <body>
 
         <h2>Narudžbe</h2>
-        <table id="narudzbeTabela" border="1px">
+        <table id="narudzbeTabela" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -27,9 +34,13 @@
             <tbody></tbody>
         </table>
     </body>
+  
     <script src="./fit-helper.js"></script>
     <script src="./fit-shop.js"></script>
-    <script src="https://wrd.app.fit.ba/2018-19/fit-all.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-messagebox.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-loader.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-dijalog.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <script>
 
@@ -41,7 +52,7 @@
                 method: 'GET', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa GET
                 headers: {
                     'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
-                    'MojAutentifikacijaToken': getMojToken(), // 
+                    'MojAutentifikacijaToken': getMojToken(), //ako nije potrebna autentifikacija, onda ovu liniju možete obrisati. Funkcija "getMojToken" se nalazi u fit-helper.js 
                 },
             })
                 .then(response => {
@@ -111,9 +122,7 @@
         }
 
 
-        CekajLoadSkripte(x=>{
-            getNarudzbeAll();
-        });
+        getNarudzbeAll();
     </script>
 
     </html>

@@ -4,30 +4,19 @@
     <head>
         <meta charset="utf-8" />
         <title>Proizvodi</title>
-    </head>
-
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-messagebox.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-loader.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-dijalog.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
-        form label {
-            width: 100%;
-            display: block;
-        }
-
-        form select {
-            display: block;
-            width: 100%;
-        }
-
-        form input {
-            display: block;
-            width: 100%;
-        }
-
-        form textarea {
-            display: block;
-            width: 100%;
-        }
+      .btn-glavni {
+          width: 300px;
+      }
+      label{
+          font-weight: bold;
+      }
     </style>
-
+    </head>
     <body>
 
 
@@ -35,7 +24,7 @@
         <br>
 
         <h2>Korpa</h2>
-        <table id="korpaTabela" border="1px">
+        <table id="korpaTabela" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -47,41 +36,44 @@
                 </tr>
             </thead>
             <tbody></tbody>
+            <tr>
+                <td  colspan="5" style="text-align: right;font-weight: 700;">Ukupno</td>
+                <td><input id="UkupnoText" disabled /></td>
+            </tr>
         </table>
         <div>
-            <label>Ukupno</label><input id="UkupnoText" disabled /><br />
-            <button onclick="btnKorpaKupi()">Kupi</button>
-            <button onclick="btnKorpaOcisti()">Ocisti korpu</button>
+            <button onclick="btnKorpaKupi()" class="btn btn-primary btn-glavni">Kupi</button>
+            <button onclick="btnKorpaOcisti()" class="btn btn-link">Ocisti korpu</button>
         </div>
-
+     
         <div id="NarudzbaKontaktDiv" style="display: none">
-            <form>
+            <hr>
+            <h2>Informacije o kupcu</h2>
                 <label for="Ime">Ime</label>
-                <input id="dostavaIme" value="kupac ime" />
-
-                <label for="dostavaAdresa">Adresa</label>
-                <input id="dostavaAdresa" value="kupac adresa" />
-
+                <input id="dostavaIme" value="kupac ime"  class="form-control"/>
+<br>
+                <label for="dostavaAdresa" >Adresa</label>
+                <input id="dostavaAdresa" value="kupac adresa"  class="form-control"/>
+                <br>
                 <label for="dostavaPostanskiBroj">Poštanski broj</label>
-                <input id="dostavaPostanskiBroj" value="88104" />
-
+                <input id="dostavaPostanskiBroj" value="88104" class="form-control" />
+                <br>
                 <label for="dostavaOpstinaID">Opština</label>
-                <select id="dostavaOpstinaID"></select>
-
-                <label for="dostavaTelefon">Telefon</label>
-                <input id="dostavaTelefon" value="061-888-8888" />
-
+                <select id="dostavaOpstinaID" class="form-control"></select>
+                <br>
+                <label for="dostavaTelefon" >Telefon</label>
+                <input id="dostavaTelefon" value="061-888-8888"  class="form-control"/>
+                <br>
                 <label for="napomena">Napomena</label>
-                <textarea id="napomena"></textarea>
-                <br />
-                <input type="button" value="Pošalji narudžbu" onclick="btnPosaljiNarudzbu()" />
-            </form>
+                <textarea id="napomena" class="form-control"></textarea>
+                <br>
+                <button onclick="btnPosaljiNarudzbu()"  class="btn btn-warning btn-glavni">Pošalji narudžbu</button>
         </div>
-
+<hr>
 
         <h2>Katalog</h2>
 
-        <table id="katalogTabela" border="1px">
+        <table id="katalogTabela" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -96,7 +88,11 @@
     </body>
     <script src="./fit-helper.js"></script>
     <script src="./fit-shop.js"></script>
-    <script src="https://wrd.app.fit.ba/2018-19/fit-all.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-messagebox.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-loader.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-dijalog.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 
     <script>
 
@@ -126,7 +122,7 @@
                 method: 'POST', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa POST
                 headers: {
                     'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
-                    'MojAutentifikacijaToken': getMojToken(), // 
+                    'MojAutentifikacijaToken': getMojToken(), //ako nije potrebna autentifikacija, onda ovu liniju možete obrisati. Funkcija "getMojToken" se nalazi u fit-helper.js  
                 },
                 body: strJson,
             })
@@ -188,10 +184,11 @@
                 td3.innerText = proizvod.cijena;
                 td4.innerText = proizvod.jedinicaMjere;
 
+                /*
                 var b1 = document.createElement('button');
                 b1.innerText = "Todo: Detalji";
                 b1.setAttribute("onclick", "btnDetalji(" + proizvod.id + ")");
-                td5.appendChild(b1);
+                td5.appendChild(b1);*/
 
                 var b2 = document.createElement('button');
                 b2.innerText = "Dodaj u korpu";
@@ -271,7 +268,7 @@
                 method: 'GET', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa GET
                 headers: {
                     'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
-                    'MojAutentifikacijaToken': getMojToken(), // 
+                    'MojAutentifikacijaToken': getMojToken(), //ako nije potrebna autentifikacija, onda ovu liniju možete obrisati. Funkcija "getMojToken" se nalazi u fit-helper.js  
                 },
             })
                 .then(response => {
@@ -314,10 +311,8 @@
             dodajRowsKorpa();
         }
 
-        CekajLoadSkripte(x => {
-            dodajRowsKorpa();
-            getProizvodiAll();
-        });
+        dodajRowsKorpa();
+        getProizvodiAll();
 
     </script>
 
