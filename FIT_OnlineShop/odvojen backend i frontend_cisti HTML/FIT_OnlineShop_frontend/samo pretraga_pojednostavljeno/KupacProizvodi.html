@@ -1,0 +1,131 @@
+<DOCTYPE <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Narudžbe</title>
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-messagebox.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-loader.css">
+        <link rel="stylesheet" href="https://wrd.app.fit.ba/2018-19/fit-dijalog.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+
+        <h2>Katalog</h2>
+
+        <table id="katalogTabela" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Naziv</th>
+                    <th>Cijena</th>
+                    <th>Jedinica mjere</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </body>
+
+    <script src="https://wrd.app.fit.ba/2018-19/fit-messagebox.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-loader.js"></script>
+    <script src="https://wrd.app.fit.ba/2018-19/fit-dijalog.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const adresaServera = "http://onlineshop.wrd.app.fit.ba/api/v2/";
+
+	
+        function getProizvodiAll() {
+            var mojUrl = adresaServera + 'Proizvod/GetAllBezAutorizacije';
+
+            LoaderPokreni();
+            fetch(mojUrl, {
+                method: 'GET', //u dokumentaciji API-a (u swaggeru) piše da je metoda tipa GET
+                headers: {
+                    'Content-Type': 'application/json', // u dokumentaciji API-a piše da je metoda prima JSON
+                },
+            })
+                .then(response => {
+                    if (response.status == 401) {
+                        //Neautorizovan
+                        //window.top.location = "Login.html";
+                    }
+                    if (!response.ok) { //backend api javlja gresku
+                        return Promise.reject(response.status + " " + response.statusText);
+                    }
+                    return response.json();// u dokumentaciji API-a piše da metoda vraća JSON
+                })
+                .then(r => {
+                    LoaderZaustavi();
+                    dodajRowsKatalog(r);
+                    porukaSuccess("uspješno downloadovano");
+                })
+                .catch((error) => {
+                    porukaError("Greska: " + error);
+                    LoaderZaustavi();
+                });
+        }
+
+	   function ProizvodVM(proizvod) {
+					this.id = proizvod.id;
+					this.naziv = proizvod.naziv;
+					this.cijena = proizvod.cijena;
+					this.jedinicaMjere = proizvod.jedinicaMjere;
+					this.kolicina = 0;
+				}
+
+
+        function dodajRowsKatalog(n) {
+            document.querySelector("#katalogTabela tbody").innerHTML = "";
+            for (var i = 0; i < n.length; i++) {
+                var proizvod = new ProizvodVM(n[i]);
+               
+
+                var tr = document.createElement('tr');
+                tr.id = "red-" + proizvod.id;
+                document.querySelector("#katalogTabela tbody").appendChild(tr);
+
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                td1.innerText = proizvod.id;
+                td2.innerText = proizvod.naziv;
+                td3.innerText = proizvod.cijena;
+                td4.innerText = proizvod.jedinicaMjere;
+
+                /*
+                var b1 = document.createElement('button');
+                b1.innerText = "Todo: Detalji";
+                b1.setAttribute("onclick", "btnDetalji(" + proizvod.id + ")");
+                td5.appendChild(b1);*/
+
+                var b2 = document.createElement('button');
+                b2.innerText = "Dodaj u korpu";
+                b2.setAttribute("onclick", "korpaDodajProizvodKolicina(" + proizvod.id + ", 1)");
+                td5.appendChild(b2);
+            }
+        }
+
+        function korpaDodajProizvodKolicina(proizvodID, kolicina) {
+            alert("nije implementirano. proizvodID: " + proizvodID )
+        }
+      
+        getProizvodiAll();
+    </script>
+
+    </html>

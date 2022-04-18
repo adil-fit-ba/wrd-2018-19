@@ -36,5 +36,19 @@ namespace FIT_Online_shop.Controllers.v2
                 Naziv = s.Naziv
             }).ToList());
         }
+        [HttpGet]
+        public ActionResult GetAllBezAutorizacije(string naziv=null)
+        {
+
+            return Ok(_dbContext.Proizvod
+                .Where(p=>naziv==null || p.Naziv.ToLower().Contains(naziv.ToLower())        )
+                .Select(s => new ProizvodGetAllVM
+            {
+                Cijena = s.Cijena,
+                Id = s.Id,
+                JedinicaMjere = s.JedinicaMjere,
+                Naziv = s.Naziv
+            }).ToList());
+        }
     }
 }
