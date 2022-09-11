@@ -25,7 +25,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
             public double CijenaDolar { get; set; }
             public string OpisPonude { get; set; }
             public List<string> Opcije { get; set; }
-            public string AkcijaPoruka { get; set; }
+            public string AkcijaPoruka { get; set; } = "";
         }
 
         private List<Destinacija2VM> listDestinacije => new List<Destinacija2VM>
@@ -105,6 +105,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
                 CijenaDolar=5000,
                 OpisPonude="27.08.2022. - 8 dana - Hotel ***"     ,
                    Opcije = GetOpcije(),
+                   AkcijaPoruka = "Preostalo 1 mjesto",
                 ImageUrl="https://restapiexample.wrd.app.fit.ba/destinacije/box-offer-03.jpg"
             } ,
                         new Destinacija2VM
@@ -113,6 +114,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
                 CijenaDolar=2000,
                 OpisPonude="21.09.2022. - 4 dana - Hotel ****"     ,
                    Opcije = GetOpcije(),
+                   AkcijaPoruka = "Popust $100 - danas",
                 ImageUrl="https://restapiexample.wrd.app.fit.ba/destinacije/box-offer-Mostar.jpg"
             } ,
                                     new Destinacija2VM
@@ -121,6 +123,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
                 CijenaDolar=2000,
                 OpisPonude="04.07.2022. - 3 dana - Hotel ***"     ,
                    Opcije = GetOpcije(),
+                   AkcijaPoruka = "",
                 ImageUrl="https://restapiexample.wrd.app.fit.ba/destinacije/box-offer-05.jpg"
             } ,
                                                 new Destinacija2VM
@@ -129,7 +132,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
                 CijenaDolar=5100,
                 OpisPonude="05.07.2022. - 5 dana - Hotel ***"     ,
                    Opcije = GetOpcije(),
-                   AkcijaPoruka = "",
+                   AkcijaPoruka = "Popust 35%",
                 ImageUrl="https://restapiexample.wrd.app.fit.ba/destinacije/box-offer-06.jpg"
             }
         };
