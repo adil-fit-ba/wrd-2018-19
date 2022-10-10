@@ -1,4 +1,5 @@
-﻿using FIT_Api_Examples.Modul1.Models;
+﻿using FIT_Api_Examples.Modul1.Controllers;
+using FIT_Api_Examples.Modul1.Models;
 using FIT_Api_Examples.Modul2.Models;
 using FIT_Api_Examples.Modul3.Models;
 using IdentityServer4.EntityFramework.Options;
@@ -22,6 +23,8 @@ namespace FIT_Api_Examples.Data
         public DbSet<Predmet> Predmet { get; set; }
         public DbSet<Ispit> Ispit { get; set; }
         public DbSet<PrijavaIspita> PrijavaIspita{ get; set; }
+        public DbSet<Ispit20220924Controller.Destinacija2VM> DestinacijaVM20220924 { get; set; }
+        public DbSet<Ispit20220924Controller.TravelFirma> TravelFirma20220924 { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)

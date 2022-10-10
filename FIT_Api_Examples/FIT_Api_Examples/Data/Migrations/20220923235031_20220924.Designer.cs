@@ -4,14 +4,16 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FIT_Api_Examples.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923235031_20220924")]
+    partial class _20220924
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,32 +43,12 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.Property<string>("OpisPonude")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TravelFirmaID")
-                        .HasColumnType("int");
-
                     b.Property<string>("_Opcije")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("TravelFirmaID");
-
                     b.ToTable("DestinacijaVM20220924");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+TravelFirma", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Naziv")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TravelFirma20220924");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Employee", b =>
@@ -367,15 +349,6 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PrijavaIspita");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+Destinacija2VM", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+TravelFirma", "TravelFirma")
-                        .WithMany()
-                        .HasForeignKey("TravelFirmaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>
