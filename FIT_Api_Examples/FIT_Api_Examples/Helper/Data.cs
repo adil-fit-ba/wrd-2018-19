@@ -21,7 +21,9 @@ namespace FIT_Api_Examples.Helper
         public string SlikaUrl { get; set; }
         public double Cijena { get; set; }
         public string Opis { get; set; }
-        public string Firma{ get; set; }
+  
+
+
     }
     public class Data
     {
