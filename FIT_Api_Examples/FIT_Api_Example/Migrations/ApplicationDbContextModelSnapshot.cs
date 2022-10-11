@@ -341,77 +341,6 @@ namespace FIT_Api_Example.Migrations
                     b.ToTable("Student");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<DateTime>("DatumIspita")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Naziv")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PredmetID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("PredmetID");
-
-                    b.ToTable("Ispit");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Predmet", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<float>("ECTS")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Naziv")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sifra")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Predmet");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.PrijavaIspita", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<DateTime>("DatumPrijave")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IspitID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("PrijavaIspita");
-                });
-
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+Destinacija2VM", b =>
                 {
                     b.HasOne("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+TravelFirma", "TravelFirma")
@@ -471,17 +400,6 @@ namespace FIT_Api_Example.Migrations
                         .HasForeignKey("opstina_rodjenja_id");
 
                     b.Navigation("opstina_rodjenja");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul3.Models.Predmet", "predmet")
-                        .WithMany()
-                        .HasForeignKey("PredmetID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("predmet");
                 });
 #pragma warning restore 612, 618
         }
