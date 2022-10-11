@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FIT_Api_Example.Migrations
 {
-    public partial class inicijalnadb : Migration
+    public partial class novadb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,6 +74,36 @@ namespace FIT_Api_Example.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Predmet",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Sifra = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ECTS = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Predmet", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrijavaIspita",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DatumPrijave = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    IspitID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrijavaIspita", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
@@ -116,6 +146,27 @@ namespace FIT_Api_Example.Migrations
                         column: x => x.drzava_id,
                         principalTable: "Drzava",
                         principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ispit",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PredmetID = table.Column<int>(type: "int", nullable: false),
+                    DatumIspita = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ispit", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Ispit_Predmet_PredmetID",
+                        column: x => x.PredmetID,
+                        principalTable: "Predmet",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -228,6 +279,11 @@ namespace FIT_Api_Example.Migrations
                 column: "TravelFirmaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ispit_PredmetID",
+                table: "Ispit",
+                column: "PredmetID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Opstina_drzava_id",
                 table: "Opstina",
                 column: "drzava_id");
@@ -259,10 +315,16 @@ namespace FIT_Api_Example.Migrations
                 name: "DestinacijaVM20220924");
 
             migrationBuilder.DropTable(
+                name: "Ispit");
+
+            migrationBuilder.DropTable(
                 name: "Ispit20210601Posalji");
 
             migrationBuilder.DropTable(
                 name: "Ispit20210702Posalji");
+
+            migrationBuilder.DropTable(
+                name: "PrijavaIspita");
 
             migrationBuilder.DropTable(
                 name: "Student");
@@ -272,6 +334,9 @@ namespace FIT_Api_Example.Migrations
 
             migrationBuilder.DropTable(
                 name: "TravelFirma20220924");
+
+            migrationBuilder.DropTable(
+                name: "Predmet");
 
             migrationBuilder.DropTable(
                 name: "Opstina");
