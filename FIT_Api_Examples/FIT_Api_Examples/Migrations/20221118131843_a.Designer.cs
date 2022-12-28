@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FIT_Api_Examples.Data.Migrations
+namespace FIT_Api_Examples.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210503214941_student")]
-    partial class student
+    [Migration("20221118131843_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace FIT_Api_Examples.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.Employee", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Employee", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -48,14 +48,68 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.Project", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20210601Posalji", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Adresa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Grad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicniBrojKupca")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Upit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Ispit20210601Posalji");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20210702Posalji", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatumVrijeme")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImePrezime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Naslov")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Poruka")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Ispit20210702Posalji");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Project", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("naziv")
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -63,7 +117,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.ProjectTask", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -73,7 +127,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.Property<DateTime>("created_time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("naziv")
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("employee_id")
@@ -103,14 +157,14 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("ProjectTask");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.TimeTracking", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.TimeTracking", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("naziv")
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("end_time")
@@ -132,7 +186,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("TimeTracking");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Drzava", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul2.Models.Drzava", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -147,17 +201,17 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("Drzava");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Opstina", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul2.Models.Opstina", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("naziv")
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("drzava_id")
+                    b.Property<int>("drzava_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -167,7 +221,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("Opstina");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Student", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul2.Models.Student", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -178,6 +232,9 @@ namespace FIT_Api_Examples.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("created_time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("datum_rodjenja")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ime")
@@ -199,42 +256,118 @@ namespace FIT_Api_Examples.Data.Migrations
                     b.ToTable("Student");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.ProjectTask", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
                 {
-                    b.HasOne("FIT_Api_Examples.Models.Employee", "employee")
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatumIspita")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Naziv")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PredmetID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PredmetID");
+
+                    b.ToTable("Ispit");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Predmet", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("ECTS")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Naziv")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sifra")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Predmet");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.PrijavaIspita", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatumPrijave")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IspitID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PrijavaIspita");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>
+                {
+                    b.HasOne("FIT_Api_Examples.Modul1.Models.Employee", "employee")
                         .WithMany()
                         .HasForeignKey("employee_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FIT_Api_Examples.Models.Project", "project")
+                    b.HasOne("FIT_Api_Examples.Modul1.Models.Project", "project")
                         .WithMany()
                         .HasForeignKey("project_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.TimeTracking", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.TimeTracking", b =>
                 {
-                    b.HasOne("FIT_Api_Examples.Models.ProjectTask", "project_task")
+                    b.HasOne("FIT_Api_Examples.Modul1.Models.ProjectTask", "project_task")
                         .WithMany()
                         .HasForeignKey("project_task_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Opstina", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul2.Models.Opstina", b =>
                 {
-                    b.HasOne("FIT_Api_Examples.Models.eUniverzitet.Drzava", "drzava")
+                    b.HasOne("FIT_Api_Examples.Modul2.Models.Drzava", "drzava")
                         .WithMany()
-                        .HasForeignKey("drzava_id");
+                        .HasForeignKey("drzava_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Models.eUniverzitet.Student", b =>
+            modelBuilder.Entity("FIT_Api_Examples.Modul2.Models.Student", b =>
                 {
-                    b.HasOne("FIT_Api_Examples.Models.eUniverzitet.Opstina", "opstina_rodjenja")
+                    b.HasOne("FIT_Api_Examples.Modul2.Models.Opstina", "opstina_rodjenja")
                         .WithMany()
                         .HasForeignKey("opstina_rodjenja_id");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul3.Models.Ispit", b =>
+                {
+                    b.HasOne("FIT_Api_Examples.Modul3.Models.Predmet", "predmet")
+                        .WithMany()
+                        .HasForeignKey("PredmetID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

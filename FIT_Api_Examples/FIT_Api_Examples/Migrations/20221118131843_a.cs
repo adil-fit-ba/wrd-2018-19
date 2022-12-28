@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FIT_Api_Examples.Data.Migrations
+namespace FIT_Api_Examples.Migrations
 {
-    public partial class student4 : Migration
+    public partial class a : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,6 +18,87 @@ namespace FIT_Api_Examples.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drzava", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    employee_name = table.Column<string>(nullable: true),
+                    employee_salary = table.Column<float>(nullable: true),
+                    employee_age = table.Column<int>(nullable: true),
+                    created_time = table.Column<DateTime>(nullable: false),
+                    profile_image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ispit20210601Posalji",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ime = table.Column<string>(nullable: true),
+                    Adresa = table.Column<string>(nullable: true),
+                    Grad = table.Column<string>(nullable: true),
+                    LicniBrojKupca = table.Column<string>(nullable: true),
+                    Upit = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ispit20210601Posalji", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ispit20210702Posalji",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImePrezime = table.Column<string>(nullable: true),
+                    Naslov = table.Column<string>(nullable: true),
+                    Poruka = table.Column<string>(nullable: true),
+                    DatumVrijeme = table.Column<DateTime>(nullable: false),
+                    Telefon = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ispit20210702Posalji", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Predmet",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(nullable: true),
+                    Sifra = table.Column<string>(nullable: true),
+                    ECTS = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Predmet", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrijavaIspita",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DatumPrijave = table.Column<DateTime>(nullable: false),
+                    StudentID = table.Column<int>(nullable: false),
+                    IspitID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrijavaIspita", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +131,27 @@ namespace FIT_Api_Examples.Data.Migrations
                         column: x => x.drzava_id,
                         principalTable: "Drzava",
                         principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ispit",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(nullable: true),
+                    PredmetID = table.Column<int>(nullable: false),
+                    DatumIspita = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ispit", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Ispit_Predmet_PredmetID",
+                        column: x => x.PredmetID,
+                        principalTable: "Predmet",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -95,6 +197,7 @@ namespace FIT_Api_Examples.Data.Migrations
                     prezime = table.Column<string>(nullable: true),
                     broj_indeksa = table.Column<string>(nullable: true),
                     opstina_rodjenja_id = table.Column<int>(nullable: true),
+                    datum_rodjenja = table.Column<DateTime>(nullable: true),
                     created_time = table.Column<DateTime>(nullable: false),
                     slika_studenta = table.Column<string>(nullable: true)
                 },
@@ -133,6 +236,11 @@ namespace FIT_Api_Examples.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ispit_PredmetID",
+                table: "Ispit",
+                column: "PredmetID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Opstina_drzava_id",
                 table: "Opstina",
                 column: "drzava_id");
@@ -161,10 +269,25 @@ namespace FIT_Api_Examples.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Ispit");
+
+            migrationBuilder.DropTable(
+                name: "Ispit20210601Posalji");
+
+            migrationBuilder.DropTable(
+                name: "Ispit20210702Posalji");
+
+            migrationBuilder.DropTable(
+                name: "PrijavaIspita");
+
+            migrationBuilder.DropTable(
                 name: "Student");
 
             migrationBuilder.DropTable(
                 name: "TimeTracking");
+
+            migrationBuilder.DropTable(
+                name: "Predmet");
 
             migrationBuilder.DropTable(
                 name: "Opstina");
@@ -174,6 +297,9 @@ namespace FIT_Api_Examples.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Drzava");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Project");

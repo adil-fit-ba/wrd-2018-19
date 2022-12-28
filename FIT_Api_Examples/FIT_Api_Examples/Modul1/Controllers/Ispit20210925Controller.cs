@@ -23,7 +23,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
         [HttpGet]
         public List<Student4VM> FindByExpertType(string type)
         {
-            return Helper.Data.listRadnici.Where(s=> string.IsNullOrEmpty(type) || s.RadnoMjesto == type).ToList().GetRandomElements(4);
+            return Helper.Data.listRadnici.Where(s=> string.IsNullOrEmpty(type) || s.Radno_Mjesto == type).ToList().GetRandomElements(4);
         }
         
         [HttpPost]
