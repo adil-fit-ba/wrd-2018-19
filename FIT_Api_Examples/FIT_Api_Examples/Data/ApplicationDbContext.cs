@@ -21,8 +21,12 @@ namespace FIT_Api_Examples.Data
         public DbSet<Predmet> Predmet { get; set; }
         public DbSet<Ispit> Ispit { get; set; }
         public DbSet<PrijavaIspita> PrijavaIspita{ get; set; }
+        public DbSet<Ispit20230715Destinacija> Ispit20230715Destinacija { get; set; }
+        public DbSet<Ispit20230715PlaniranoPutovanje> Ispit20230715PlaniranoPutovanje { get; set; }     
+        public DbSet<Ispit20230715PosaljiZapis> Ispit20230715PosaljiZapis { get; set; }
         public DbSet<Ispit20220924Controller.Destinacija2VM> DestinacijaVM20220924 { get; set; }
         public DbSet<Ispit20220924Controller.TravelFirma> TravelFirma20220924 { get; set; }
+        public DbSet<Ispit20230624Controller.Ispit20230624PosaljiZapis> Ispit20230624PosaljiZapis { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)

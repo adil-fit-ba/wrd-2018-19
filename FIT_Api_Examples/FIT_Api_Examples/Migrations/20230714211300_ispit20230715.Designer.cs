@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FIT_Api_Examples.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221118133820_b")]
-    partial class b
+    [Migration("20230714211300_ispit20230715")]
+    partial class ispit20230715
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,43 @@ namespace FIT_Api_Examples.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("TravelFirma20220924");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Controllers.Ispit20230624Controller+Ispit20230624PosaljiZapis", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<string>("BrojIndeksa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DestinacijaDrzava")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gosti")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OznakaSoba")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Poruka")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Vrijeme")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ipAdresa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ispit20230624PosaljiZapis");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Employee", b =>
@@ -155,6 +192,72 @@ namespace FIT_Api_Examples.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Ispit20210702Posalji");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", b =>
+                {
+                    b.Property<int>("Ispit20230715DestinacijaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Ispit20230715DestinacijaID"), 1L, 1);
+
+                    b.Property<string>("AkcijaPoruka")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MjestoDrzava")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpisPonude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TravelFirmaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Ispit20230715DestinacijaID");
+
+                    b.HasIndex("TravelFirmaID");
+
+                    b.ToTable("DestinacijaVM20230715");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PlaniranoPutovanje", b =>
+                {
+                    b.Property<int>("Ispit20230715PlaniranoPutovanjeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Ispit20230715PlaniranoPutovanjeID"), 1L, 1);
+
+                    b.Property<int>("BrojSlobodnihMjesta")
+                        .HasColumnType("int");
+
+                    b.Property<double>("CijenaKM")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DatumPolaska")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DatumPovratka")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HotelOpis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Ispit20230715DestinacijaID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VrstaPrevoza")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Ispit20230715PlaniranoPutovanjeID");
+
+                    b.HasIndex("Ispit20230715DestinacijaID");
+
+                    b.ToTable("Ispit20230715PlaniranoPutovanje");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Project", b =>
@@ -394,6 +497,28 @@ namespace FIT_Api_Examples.Migrations
                         .IsRequired();
 
                     b.Navigation("TravelFirma");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", b =>
+                {
+                    b.HasOne("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+TravelFirma", "TravelFirma")
+                        .WithMany()
+                        .HasForeignKey("TravelFirmaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TravelFirma");
+                });
+
+            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PlaniranoPutovanje", b =>
+                {
+                    b.HasOne("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", "Ispit20230715Destinacija")
+                        .WithMany()
+                        .HasForeignKey("Ispit20230715DestinacijaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ispit20230715Destinacija");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace FIT_Api_Examples.Modul3.Models
 {
-
+   
 }

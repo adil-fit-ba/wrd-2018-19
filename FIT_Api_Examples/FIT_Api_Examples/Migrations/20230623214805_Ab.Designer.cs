@@ -4,6 +4,7 @@ using FIT_Api_Examples.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FIT_Api_Examples.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623214805_Ab")]
+    partial class Ab
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +101,6 @@ namespace FIT_Api_Examples.Migrations
 
                     b.Property<DateTime>("Vrijeme")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ipAdresa")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -190,117 +189,6 @@ namespace FIT_Api_Examples.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Ispit20210702Posalji");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("AkcijaPoruka")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MjestoDrzava")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OpisPonude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TravelFirmaID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TravelFirmaID");
-
-                    b.ToTable("Ispit20230715Destinacija");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PlaniranoPutovanje", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("BrojSlobodnihMjesta")
-                        .HasColumnType("int");
-
-                    b.Property<double>("CijenaEUR")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DatumPolaska")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DatumPovratka")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HotelOpis")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Ispit20230715DestinacijaID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("VrstaPrevoza")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Ispit20230715DestinacijaID");
-
-                    b.ToTable("Ispit20230715PlaniranoPutovanje");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PosaljiZapis", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("BrojIndeksa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DatumPolaska")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DestinacijaDrzava")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gosti")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IpAdresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Ispit20230715PlaniranoPutovanjeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Poruka")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TravelFirma")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Vrijeme")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Ispit20230715PlaniranoPutovanjeId");
-
-                    b.ToTable("Ispit20230715PosaljiZapis");
                 });
 
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Project", b =>
@@ -542,37 +430,6 @@ namespace FIT_Api_Examples.Migrations
                     b.Navigation("TravelFirma");
                 });
 
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul1.Controllers.Ispit20220924Controller+TravelFirma", "TravelFirma")
-                        .WithMany()
-                        .HasForeignKey("TravelFirmaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TravelFirma");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PlaniranoPutovanje", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", "Ispit20230715Destinacija")
-                        .WithMany("Ispit20230715PlaniranoPutovanjeList")
-                        .HasForeignKey("Ispit20230715DestinacijaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ispit20230715Destinacija");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715PosaljiZapis", b =>
-                {
-                    b.HasOne("FIT_Api_Examples.Modul1.Models.Ispit20230715PlaniranoPutovanje", "Ispit20230715PlaniranoPutovanje")
-                        .WithMany()
-                        .HasForeignKey("Ispit20230715PlaniranoPutovanjeId");
-
-                    b.Navigation("Ispit20230715PlaniranoPutovanje");
-                });
-
             modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.ProjectTask", b =>
                 {
                     b.HasOne("FIT_Api_Examples.Modul1.Models.Employee", "employee")
@@ -632,11 +489,6 @@ namespace FIT_Api_Examples.Migrations
                         .IsRequired();
 
                     b.Navigation("predmet");
-                });
-
-            modelBuilder.Entity("FIT_Api_Examples.Modul1.Models.Ispit20230715Destinacija", b =>
-                {
-                    b.Navigation("Ispit20230715PlaniranoPutovanjeList");
                 });
 #pragma warning restore 612, 618
         }
