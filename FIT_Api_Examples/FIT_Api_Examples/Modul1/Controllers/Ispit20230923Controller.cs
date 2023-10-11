@@ -54,6 +54,14 @@ namespace FIT_Api_Examples.Modul1.Controllers
                     x.MjestoDrzava,
                     x.ID,
                     x.OpisPonude,
+                    ZadnjePutovanje = x.Ispit20230715PlaniranoPutovanjeList
+                        .Where(pp => pp.DatumPolaska < DateTime.Now)
+                        .Select(pp => new
+                        {
+                            PrijeDana = (now - pp.DatumPolaska).Days,
+                            DatumPolaska = pp.DatumPolaska.ToString("dd.MM.yyyy"),
+                        }).FirstOrDefault(),
+
                     NaredniPolazak = x.Ispit20230715PlaniranoPutovanjeList
                         .Where(pp=> pp.DatumPolaska>= DateTime.Now)
                         .Select(pp => new
