@@ -59,7 +59,7 @@ namespace FIT_Api_Examples.Modul1.Controllers
                         .Select(pp => new
                         {
                             PrijeDana = (now - pp.DatumPolaska).Days,
-                            DatumPolaska = pp.DatumPolaska.ToString("dd.MM.yyyy"),
+                            DatumPolaska = pp.DatumPolaska.ToString("dd.MM.yyyy HH-mm"),
                         }).FirstOrDefault(),
 
                     NaredniPolazak = x.Ispit20230715PlaniranoPutovanjeList
